@@ -238,12 +238,20 @@
 					"referenceName": "kkdatalake2",
 					"type": "LinkedServiceReference"
 				},
+				"parameters": {
+					"filename": {
+						"type": "string"
+					}
+				},
 				"annotations": [],
 				"type": "DelimitedText",
 				"typeProperties": {
 					"location": {
 						"type": "AzureBlobFSLocation",
-						"fileName": "dept.csv",
+						"fileName": {
+							"value": "@dataset().filename",
+							"type": "Expression"
+						},
 						"fileSystem": "data"
 					},
 					"columnDelimiter": ",",
@@ -279,6 +287,11 @@
 					"referenceName": "targetazuredb",
 					"type": "LinkedServiceReference"
 				},
+				"parameters": {
+					"tablename": {
+						"type": "string"
+					}
+				},
 				"annotations": [],
 				"type": "AzureSqlTable",
 				"schema": [
@@ -299,7 +312,10 @@
 				],
 				"typeProperties": {
 					"schema": "dbo",
-					"table": "target_dept"
+					"table": {
+						"value": "@dataset().tablename",
+						"type": "Expression"
+					}
 				}
 			},
 			"dependsOn": [
@@ -642,14 +658,21 @@
 							{
 								"referenceName": "sourcedept",
 								"type": "DatasetReference",
-								"parameters": {}
+								"parameters": {
+									"filename": "dept.csv"
+								}
 							}
 						],
 						"outputs": [
 							{
 								"referenceName": "targetdept",
 								"type": "DatasetReference",
-								"parameters": {}
+								"parameters": {
+									"tablename": {
+										"value": "@concat('target_',utcnow())",
+										"type": "Expression"
+									}
+								}
 							}
 						]
 					}
@@ -657,6 +680,14 @@
 				"policy": {
 					"elapsedTimeMetric": {},
 					"cancelAfter": {}
+				},
+				"parameters": {
+					"filename": {
+						"type": "string"
+					},
+					"tablename": {
+						"type": "string"
+					}
 				},
 				"annotations": []
 			},
