@@ -75,17 +75,34 @@
 				"inputs": [
 					{
 						"referenceName": "sourcedept",
-						"type": "DatasetReference"
+						"type": "DatasetReference",
+						"parameters": {
+							"filename": "dept.csv"
+						}
 					}
 				],
 				"outputs": [
 					{
 						"referenceName": "targetdept",
-						"type": "DatasetReference"
+						"type": "DatasetReference",
+						"parameters": {
+							"tablename": {
+								"value": "@concat('target_',utcnow())",
+								"type": "Expression"
+							}
+						}
 					}
 				]
 			}
 		],
+		"parameters": {
+			"filename": {
+				"type": "string"
+			},
+			"tablename": {
+				"type": "string"
+			}
+		},
 		"annotations": []
 	}
 }

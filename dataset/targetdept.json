@@ -5,6 +5,11 @@
 			"referenceName": "targetazuredb",
 			"type": "LinkedServiceReference"
 		},
+		"parameters": {
+			"tablename": {
+				"type": "string"
+			}
+		},
 		"annotations": [],
 		"type": "AzureSqlTable",
 		"schema": [
@@ -25,7 +30,10 @@
 		],
 		"typeProperties": {
 			"schema": "dbo",
-			"table": "target_dept"
+			"table": {
+				"value": "@dataset().tablename",
+				"type": "Expression"
+			}
 		}
 	}
 }
