@@ -2,7 +2,7 @@
 	"name": "SourceDataset_10m",
 	"properties": {
 		"linkedServiceName": {
-			"referenceName": "kkdl456",
+			"referenceName": "kkdatalake2",
 			"type": "LinkedServiceReference"
 		},
 		"annotations": [],
