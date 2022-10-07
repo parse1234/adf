@@ -1,0 +1,15 @@
+{
+	"name": "DestinationDataset_vpb",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureSqlDatabase1",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [],
+		"typeProperties": {
+			"table": "AzureBlobFSFile"
+		}
+	}
+}
