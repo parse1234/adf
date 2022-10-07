@@ -11,16 +11,10 @@
 		"kkdatalake2_accountKey": {
 			"value": ""
 		},
-		"kkdl456_accountKey": {
-			"value": ""
-		},
 		"targetazuredb_connectionString": {
 			"value": ""
 		},
 		"kkdatalake2_properties_typeProperties_url": {
-			"value": "https://kkdl456.dfs.core.windows.net/"
-		},
-		"kkdl456_properties_typeProperties_url": {
 			"value": "https://kkdl456.dfs.core.windows.net/"
 		}
 	}

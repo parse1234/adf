@@ -15,19 +15,11 @@
 			"type": "secureString",
 			"metadata": "Secure string for 'accountKey' of 'kkdatalake2'"
 		},
-		"kkdl456_accountKey": {
-			"type": "secureString",
-			"metadata": "Secure string for 'accountKey' of 'kkdl456'"
-		},
 		"targetazuredb_connectionString": {
 			"type": "secureString",
 			"metadata": "Secure string for 'connectionString' of 'targetazuredb'"
 		},
 		"kkdatalake2_properties_typeProperties_url": {
-			"type": "string",
-			"defaultValue": "https://kkdl456.dfs.core.windows.net/"
-		},
-		"kkdl456_properties_typeProperties_url": {
 			"type": "string",
 			"defaultValue": "https://kkdl456.dfs.core.windows.net/"
 		}
@@ -67,23 +59,6 @@
 			"dependsOn": []
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/kkdl456')]",
-			"type": "Microsoft.DataFactory/factories/linkedServices",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"annotations": [],
-				"type": "AzureBlobFS",
-				"typeProperties": {
-					"url": "[parameters('kkdl456_properties_typeProperties_url')]",
-					"accountKey": {
-						"type": "SecureString",
-						"value": "[parameters('kkdl456_accountKey')]"
-					}
-				}
-			},
-			"dependsOn": []
-		},
-		{
 			"name": "[concat(parameters('factoryName'), '/targetazuredb')]",
 			"type": "Microsoft.DataFactory/factories/linkedServices",
 			"apiVersion": "2018-06-01",
@@ -95,6 +70,42 @@
 				}
 			},
 			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/DestinationDataset_08b')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "kkdatalake2",
+					"type": "LinkedServiceReference"
+				},
+				"parameters": {
+					"cw_fileName": {
+						"type": "String"
+					}
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobFSLocation",
+						"fileName": {
+							"value": "@dataset().cw_fileName",
+							"type": "Expression"
+						},
+						"fileSystem": "target"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/kkdatalake2')]"
+			]
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/DestinationDataset_10m')]",
@@ -173,12 +184,41 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/SourceDataset_08b')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureSqlDatabase1",
+					"type": "LinkedServiceReference"
+				},
+				"parameters": {
+					"cw_table": {
+						"type": "String"
+					}
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [],
+				"typeProperties": {
+					"schema": "cogni",
+					"table": {
+						"value": "@dataset().cw_table",
+						"type": "Expression"
+					}
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/AzureSqlDatabase1')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/SourceDataset_10m')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
 			"properties": {
 				"linkedServiceName": {
-					"referenceName": "kkdl456",
+					"referenceName": "kkdatalake2",
 					"type": "LinkedServiceReference"
 				},
 				"annotations": [],
@@ -217,7 +257,7 @@
 				]
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/kkdl456')]"
+				"[concat(variables('factoryId'), '/linkedServices/kkdatalake2')]"
 			]
 		},
 		{
@@ -585,14 +625,14 @@
 			]
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/CopyPipeline_db2datalake')]",
+			"name": "[concat(parameters('factoryName'), '/CopyPipeline_copytooldb2dl')]",
 			"type": "Microsoft.DataFactory/factories/pipelines",
 			"apiVersion": "2018-06-01",
 			"properties": {
-				"description": "we copy multiple table of a db to csv store",
+				"description": "we use copy tool to copy tables into files",
 				"activities": [
 					{
-						"name": "ForEach_1qz",
+						"name": "ForEach_08b",
 						"type": "ForEach",
 						"dependsOn": [],
 						"userProperties": [],
@@ -603,7 +643,7 @@
 							},
 							"activities": [
 								{
-									"name": "Copy_1qz",
+									"name": "Copy_08b",
 									"type": "Copy",
 									"dependsOn": [],
 									"policy": {
@@ -640,12 +680,12 @@
 											}
 										},
 										"enableStaging": false,
-										"enableSkipIncompatibleRow": true,
+										"enableSkipIncompatibleRow": false,
 										"validateDataConsistency": false
 									},
 									"inputs": [
 										{
-											"referenceName": "SourceDataset_1qz",
+											"referenceName": "SourceDataset_08b",
 											"type": "DatasetReference",
 											"parameters": {
 												"cw_table": "@item().source.table"
@@ -654,7 +694,7 @@
 									],
 									"outputs": [
 										{
-											"referenceName": "DestinationDataset_1qz",
+											"referenceName": "DestinationDataset_08b",
 											"type": "DatasetReference",
 											"parameters": {
 												"cw_fileName": "@item().destination.fileName"
@@ -696,130 +736,12 @@
 				"annotations": []
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/datasets/SourceDataset_1qz')]",
-				"[concat(variables('factoryId'), '/datasets/DestinationDataset_1qz')]"
+				"[concat(variables('factoryId'), '/datasets/SourceDataset_08b')]",
+				"[concat(variables('factoryId'), '/datasets/DestinationDataset_08b')]"
 			]
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/CopyPipeline_dl2dbviacopytool')]",
-			"type": "Microsoft.DataFactory/factories/pipelines",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"activities": [
-					{
-						"name": "Copy_bnb",
-						"type": "Copy",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "0.12:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [
-							{
-								"name": "Source",
-								"value": "target//"
-							},
-							{
-								"name": "Destination",
-								"value": ".AzureBlobFSFile"
-							}
-						],
-						"typeProperties": {
-							"source": {
-								"type": "DelimitedTextSource",
-								"storeSettings": {
-									"type": "AzureBlobFSReadSettings",
-									"recursive": true,
-									"wildcardFileName": "*",
-									"enablePartitionDiscovery": false
-								},
-								"formatSettings": {
-									"type": "DelimitedTextReadSettings",
-									"skipLineCount": 0
-								}
-							},
-							"sink": {
-								"type": "AzureSqlSink",
-								"tableOption": "autoCreate"
-							},
-							"enableStaging": false,
-							"validateDataConsistency": false,
-							"translator": {
-								"type": "TabularTranslator",
-								"mappings": [
-									{
-										"source": {
-											"name": "authorid",
-											"type": "String",
-											"physicalType": "String"
-										},
-										"sink": {
-											"name": "authorid",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "authorname",
-											"type": "String",
-											"physicalType": "String"
-										},
-										"sink": {
-											"name": "authorname",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "contactno",
-											"type": "String",
-											"physicalType": "String"
-										},
-										"sink": {
-											"name": "contactno",
-											"type": "String"
-										}
-									}
-								],
-								"typeConversion": true,
-								"typeConversionSettings": {
-									"allowDataTruncation": true,
-									"treatBooleanAsNumber": false
-								}
-							}
-						},
-						"inputs": [
-							{
-								"referenceName": "SourceDataset_bnb",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						],
-						"outputs": [
-							{
-								"referenceName": "DestinationDataset_bnb",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						]
-					}
-				],
-				"policy": {
-					"elapsedTimeMetric": {},
-					"cancelAfter": {}
-				},
-				"annotations": []
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/datasets/SourceDataset_bnb')]",
-				"[concat(variables('factoryId'), '/datasets/DestinationDataset_bnb')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/cogpipe1')]",
+			"name": "[concat(parameters('factoryName'), '/letmetest')]",
 			"type": "Microsoft.DataFactory/factories/pipelines",
 			"apiVersion": "2018-06-01",
 			"properties": {
@@ -859,10 +781,10 @@
 								"mappings": [
 									{
 										"source": {
-											"name": "dept_id"
+											"name": "did"
 										},
 										"sink": {
-											"name": "dept_id",
+											"name": "did",
 											"physicalType": "int",
 											"precision": 10
 										}
@@ -878,7 +800,7 @@
 									},
 									{
 										"source": {
-											"name": "totalrevenue"
+											"name": "revenue"
 										},
 										"sink": {
 											"name": "revenue",
@@ -896,23 +818,16 @@
 						},
 						"inputs": [
 							{
-								"referenceName": "sourcedept",
+								"referenceName": "myfiledept",
 								"type": "DatasetReference",
-								"parameters": {
-									"filename": "dept.csv"
-								}
+								"parameters": {}
 							}
 						],
 						"outputs": [
 							{
-								"referenceName": "targetdept",
+								"referenceName": "department11",
 								"type": "DatasetReference",
-								"parameters": {
-									"tablename": {
-										"value": "@concat('target_',utcnow())",
-										"type": "Expression"
-									}
-								}
+								"parameters": {}
 							}
 						]
 					}
@@ -921,19 +836,11 @@
 					"elapsedTimeMetric": {},
 					"cancelAfter": {}
 				},
-				"parameters": {
-					"filename": {
-						"type": "string"
-					},
-					"tablename": {
-						"type": "string"
-					}
-				},
 				"annotations": []
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/datasets/sourcedept')]",
-				"[concat(variables('factoryId'), '/datasets/targetdept')]"
+				"[concat(variables('factoryId'), '/datasets/myfiledept')]",
+				"[concat(variables('factoryId'), '/datasets/department11')]"
 			]
 		}
 	]

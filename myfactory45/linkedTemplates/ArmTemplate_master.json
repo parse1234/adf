@@ -15,19 +15,11 @@
 			"type": "secureString",
 			"metadata": "Secure string for 'accountKey' of 'kkdatalake2'"
 		},
-		"kkdl456_accountKey": {
-			"type": "secureString",
-			"metadata": "Secure string for 'accountKey' of 'kkdl456'"
-		},
 		"targetazuredb_connectionString": {
 			"type": "secureString",
 			"metadata": "Secure string for 'connectionString' of 'targetazuredb'"
 		},
 		"kkdatalake2_properties_typeProperties_url": {
-			"type": "string",
-			"defaultValue": "https://kkdl456.dfs.core.windows.net/"
-		},
-		"kkdl456_properties_typeProperties_url": {
 			"type": "string",
 			"defaultValue": "https://kkdl456.dfs.core.windows.net/"
 		},
@@ -64,41 +56,15 @@
 					"kkdatalake2_accountKey": {
 						"value": "[parameters('kkdatalake2_accountKey')]"
 					},
-					"kkdl456_accountKey": {
-						"value": "[parameters('kkdl456_accountKey')]"
-					},
 					"targetazuredb_connectionString": {
 						"value": "[parameters('targetazuredb_connectionString')]"
 					},
 					"kkdatalake2_properties_typeProperties_url": {
 						"value": "[parameters('kkdatalake2_properties_typeProperties_url')]"
-					},
-					"kkdl456_properties_typeProperties_url": {
-						"value": "[parameters('kkdl456_properties_typeProperties_url')]"
 					}
 				}
 			},
 			"dependsOn": []
-		},
-		{
-			"name": "myfactory45_ArmTemplate_1",
-			"type": "Microsoft.Resources/deployments",
-			"apiVersion": "2018-02-01",
-			"properties": {
-				"mode": "incremental",
-				"templateLink": {
-					"uri": "[concat(parameters('containerUri'), '/ArmTemplate_1.json', parameters('containerSasToken'))]",
-					"contentVersion": "1.0.0.0"
-				},
-				"parameters": {
-					"factoryName": {
-						"value": "[parameters('factoryName')]"
-					}
-				}
-			},
-			"dependsOn": [
-				"[resourceId('Microsoft.Resources/deployments', 'myfactory45_ArmTemplate_0')]"
-			]
 		}
 	]
 }
