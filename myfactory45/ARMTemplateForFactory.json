@@ -114,15 +114,11 @@
 											}
 										},
 										"sink": {
-											"type": "DelimitedTextSink",
-											"storeSettings": {
-												"type": "AzureBlobFSWriteSettings"
-											},
-											"formatSettings": {
-												"type": "DelimitedTextWriteSettings",
-												"quoteAllText": true,
-												"fileExtension": ".txt"
-											}
+											"type": "AzureSqlSink",
+											"writeBehavior": "insert",
+											"sqlWriterUseTableLock": false,
+											"tableOption": "autoCreate",
+											"disableMetricsCollection": false
 										},
 										"enableStaging": false,
 										"translator": {
@@ -143,9 +139,14 @@
 									],
 									"outputs": [
 										{
-											"referenceName": "output_folder",
+											"referenceName": "multitables",
 											"type": "DatasetReference",
-											"parameters": {}
+											"parameters": {
+												"tablename": {
+													"value": "@item().name",
+													"type": "Expression"
+												}
+											}
 										}
 									]
 								}
@@ -161,7 +162,7 @@
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/input_folder')]",
-				"[concat(variables('factoryId'), '/datasets/output_folder')]"
+				"[concat(variables('factoryId'), '/datasets/multitables')]"
 			]
 		},
 		{
@@ -190,6 +191,35 @@
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/linkedServices/kkdatalake2')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/multitables')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureSqlDatabase1",
+					"type": "LinkedServiceReference"
+				},
+				"parameters": {
+					"tablename": {
+						"type": "string"
+					}
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [],
+				"typeProperties": {
+					"schema": "dbo",
+					"table": {
+						"value": "@dataset().tablename",
+						"type": "Expression"
+					}
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/AzureSqlDatabase1')]"
 			]
 		},
 		{
