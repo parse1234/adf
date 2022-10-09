@@ -81,11 +81,15 @@
 									}
 								},
 								"sink": {
-									"type": "AzureSqlSink",
-									"writeBehavior": "insert",
-									"sqlWriterUseTableLock": false,
-									"tableOption": "autoCreate",
-									"disableMetricsCollection": false
+									"type": "DelimitedTextSink",
+									"storeSettings": {
+										"type": "AzureBlobFSWriteSettings"
+									},
+									"formatSettings": {
+										"type": "DelimitedTextWriteSettings",
+										"quoteAllText": true,
+										"fileExtension": ".txt"
+									}
 								},
 								"enableStaging": false,
 								"translator": {
@@ -105,7 +109,7 @@
 							],
 							"outputs": [
 								{
-									"referenceName": "multitables",
+									"referenceName": "output_folder",
 									"type": "DatasetReference"
 								}
 							]
