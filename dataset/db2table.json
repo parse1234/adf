@@ -1,0 +1,43 @@
+{
+	"name": "db2table",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureSqlDatabase2",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "orderid",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "orderdate",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "productid",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "qtysold",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "billamount",
+				"type": "int",
+				"precision": 10
+			}
+		],
+		"typeProperties": {
+			"schema": "source",
+			"table": "orders"
+		}
+	}
+}
