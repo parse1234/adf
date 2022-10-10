@@ -371,6 +371,11 @@
 					"referenceName": "AzureSqlDatabase2",
 					"type": "LinkedServiceReference"
 				},
+				"parameters": {
+					"tname": {
+						"type": "string"
+					}
+				},
 				"annotations": [],
 				"type": "AzureSqlTable",
 				"schema": [
@@ -403,7 +408,10 @@
 				],
 				"typeProperties": {
 					"schema": "source",
-					"table": "orders"
+					"table": {
+						"value": "@dataset().tname",
+						"type": "Expression"
+					}
 				}
 			},
 			"dependsOn": [
