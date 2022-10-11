@@ -7,7 +7,7 @@
 		"typeProperties": {
 			"connectionString": "integrated security=True;data source=kuldeep;initial catalog=adventureworksdw2014",
 			"userName": "kuldeep\\kuldeep1",
-			"encryptedCredential": "eyJDcmVkZW50aWFsSWQiOiI5OWQ3OGFjYi03YzdmLTRkNzQtODEwOC02NDYxMjkwZTJmY2MiLCJWZXJzaW9uIjoiMi4wIiwiQ2xhc3NUeXBlIjoiTWljcm9zb2Z0LkRhdGFQcm94eS5Db3JlLkludGVyU2VydmljZURhdGFDb250cmFjdC5DcmVkZW50aWFsU1UwNkNZMTQifQ=="
+			"encryptedCredential": "eyJDcmVkZW50aWFsSWQiOiIyZTc5OGYwZS1jOTI5LTRkMDMtYTVjNC05MmQ0Y2ZjMDk3YjQiLCJWZXJzaW9uIjoiMi4wIiwiQ2xhc3NUeXBlIjoiTWljcm9zb2Z0LkRhdGFQcm94eS5Db3JlLkludGVyU2VydmljZURhdGFDb250cmFjdC5DcmVkZW50aWFsU1UwNkNZMTQifQ=="
 		},
 		"connectVia": {
 			"referenceName": "integrationRuntime1",
