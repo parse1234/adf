@@ -1,0 +1,49 @@
+{
+	"name": "Excel1",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "kkdatalake2",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "Excel",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"fileName": "Book1.xlsx",
+				"fileSystem": "data"
+			},
+			"firstRowAsHeader": true
+		},
+		"schema": [
+			{
+				"name": "Empid",
+				"type": "String"
+			},
+			{
+				"name": "empname",
+				"type": "String"
+			},
+			{
+				"name": "salary",
+				"type": "String"
+			},
+			{
+				"name": "position_id",
+				"type": "String"
+			},
+			{
+				"name": "did",
+				"type": "String"
+			},
+			{
+				"name": "emailid",
+				"type": "String"
+			},
+			{
+				"name": "Gender",
+				"type": "String"
+			}
+		]
+	}
+}
