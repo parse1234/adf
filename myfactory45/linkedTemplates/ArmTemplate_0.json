@@ -19,6 +19,10 @@
 			"type": "secureString",
 			"metadata": "Secure string for 'connectionString' of 'AzureSynapseAnalytics1'"
 		},
+		"AzureSynapseAnalytics2_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'AzureSynapseAnalytics2'"
+		},
 		"kkdatalake2_accountKey": {
 			"type": "secureString",
 			"metadata": "Secure string for 'accountKey' of 'kkdatalake2'"
@@ -71,6 +75,19 @@
 				"type": "AzureSqlDW",
 				"typeProperties": {
 					"connectionString": "[parameters('AzureSynapseAnalytics1_connectionString')]"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/AzureSynapseAnalytics2')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "AzureSqlDW",
+				"typeProperties": {
+					"connectionString": "[parameters('AzureSynapseAnalytics2_connectionString')]"
 				}
 			},
 			"dependsOn": []
@@ -570,147 +587,84 @@
 			]
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/dataflowdept')]",
+			"name": "[concat(parameters('factoryName'), '/Targetdept')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
 			"properties": {
 				"linkedServiceName": {
-					"referenceName": "kkdatalake2",
+					"referenceName": "AzureSynapseAnalytics2",
 					"type": "LinkedServiceReference"
 				},
 				"annotations": [],
-				"type": "DelimitedText",
-				"typeProperties": {
-					"location": {
-						"type": "AzureBlobFSLocation",
-						"fileName": "dept.csv",
-						"folderPath": "input",
-						"fileSystem": "data"
-					},
-					"columnDelimiter": ",",
-					"escapeChar": "\\",
-					"firstRowAsHeader": true,
-					"quoteChar": "\""
-				},
+				"type": "AzureSqlDWTable",
 				"schema": [
 					{
-						"name": "dept_id",
-						"type": "String"
+						"name": "did",
+						"type": "int",
+						"precision": 10
 					},
 					{
 						"name": "dname",
-						"type": "String"
+						"type": "varchar"
 					},
 					{
 						"name": "totalrevenue",
-						"type": "String"
-					}
-				]
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/kkdatalake2')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/dataflowemp')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "kkdatalake2",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "DelimitedText",
-				"typeProperties": {
-					"location": {
-						"type": "AzureBlobFSLocation",
-						"fileName": "emp.csv",
-						"folderPath": "input",
-						"fileSystem": "data"
-					},
-					"columnDelimiter": ",",
-					"escapeChar": "\\",
-					"firstRowAsHeader": true,
-					"quoteChar": "\""
-				},
-				"schema": [
-					{
-						"name": "empid",
-						"type": "String"
-					},
-					{
-						"name": "ename",
-						"type": "String"
-					},
-					{
-						"name": "salary",
-						"type": "String"
-					},
-					{
-						"name": "did",
-						"type": "String"
-					}
-				]
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/kkdatalake2')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/db2table')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "AzureSqlDatabase2",
-					"type": "LinkedServiceReference"
-				},
-				"parameters": {
-					"tname": {
-						"type": "string"
-					}
-				},
-				"annotations": [],
-				"type": "AzureSqlTable",
-				"schema": [
-					{
-						"name": "orderid",
 						"type": "int",
 						"precision": 10
 					},
 					{
-						"name": "orderdate",
-						"type": "datetime",
-						"precision": 23,
-						"scale": 3
-					},
-					{
-						"name": "productid",
-						"type": "int",
-						"precision": 10
-					},
-					{
-						"name": "qtysold",
-						"type": "int",
-						"precision": 10
-					},
-					{
-						"name": "billamount",
+						"name": "targetrevenue",
 						"type": "int",
 						"precision": 10
 					}
 				],
 				"typeProperties": {
-					"schema": "source",
-					"table": {
-						"value": "@dataset().tname",
-						"type": "Expression"
-					}
+					"schema": "dbo",
+					"table": "batch2dept"
 				}
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/AzureSqlDatabase2')]"
+				"[concat(variables('factoryId'), '/linkedServices/AzureSynapseAnalytics2')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/Targetemp')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureSynapseAnalytics2",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzureSqlDWTable",
+				"schema": [
+					{
+						"name": "eid",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "ename",
+						"type": "varchar"
+					},
+					{
+						"name": "salary",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "dname",
+						"type": "varchar"
+					}
+				],
+				"typeProperties": {
+					"schema": "dbo",
+					"table": "batch2emp"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/AzureSynapseAnalytics2')]"
 			]
 		}
 	]

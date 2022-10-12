@@ -19,6 +19,10 @@
 			"type": "secureString",
 			"metadata": "Secure string for 'connectionString' of 'AzureSynapseAnalytics1'"
 		},
+		"AzureSynapseAnalytics2_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'AzureSynapseAnalytics2'"
+		},
 		"FileServer1_password": {
 			"type": "secureString",
 			"metadata": "Secure string for 'password' of 'FileServer1'"
@@ -91,6 +95,9 @@
 					"AzureSynapseAnalytics1_connectionString": {
 						"value": "[parameters('AzureSynapseAnalytics1_connectionString')]"
 					},
+					"AzureSynapseAnalytics2_connectionString": {
+						"value": "[parameters('AzureSynapseAnalytics2_connectionString')]"
+					},
 					"kkdatalake2_accountKey": {
 						"value": "[parameters('kkdatalake2_accountKey')]"
 					},
@@ -140,6 +147,26 @@
 			},
 			"dependsOn": [
 				"[resourceId('Microsoft.Resources/deployments', 'myfactory45_ArmTemplate_0')]"
+			]
+		},
+		{
+			"name": "myfactory45_ArmTemplate_2",
+			"type": "Microsoft.Resources/deployments",
+			"apiVersion": "2018-02-01",
+			"properties": {
+				"mode": "incremental",
+				"templateLink": {
+					"uri": "[concat(parameters('containerUri'), '/ArmTemplate_2.json', parameters('containerSasToken'))]",
+					"contentVersion": "1.0.0.0"
+				},
+				"parameters": {
+					"factoryName": {
+						"value": "[parameters('factoryName')]"
+					}
+				}
+			},
+			"dependsOn": [
+				"[resourceId('Microsoft.Resources/deployments', 'myfactory45_ArmTemplate_1')]"
 			]
 		}
 	]
