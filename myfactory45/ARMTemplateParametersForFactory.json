@@ -11,14 +11,35 @@
 		"AzureSqlDatabase2_connectionString": {
 			"value": ""
 		},
+		"AzureSynapseAnalytics1_connectionString": {
+			"value": ""
+		},
+		"FileServer1_password": {
+			"value": ""
+		},
 		"kkdatalake2_accountKey": {
+			"value": ""
+		},
+		"localsqlserver_connectionString": {
+			"value": ""
+		},
+		"localsqlserver_password": {
 			"value": ""
 		},
 		"targetazuredb_connectionString": {
 			"value": ""
 		},
+		"FileServer1_properties_typeProperties_host": {
+			"value": "e:\\"
+		},
+		"FileServer1_properties_typeProperties_userId": {
+			"value": "kuldeep1"
+		},
 		"kkdatalake2_properties_typeProperties_url": {
 			"value": "https://kkdl456.dfs.core.windows.net/"
+		},
+		"localsqlserver_properties_typeProperties_userName": {
+			"value": "kuldeep\\kuldeep1"
 		}
 	}
 }

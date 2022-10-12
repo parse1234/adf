@@ -15,17 +15,45 @@
 			"type": "secureString",
 			"metadata": "Secure string for 'connectionString' of 'AzureSqlDatabase2'"
 		},
+		"AzureSynapseAnalytics1_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'AzureSynapseAnalytics1'"
+		},
+		"FileServer1_password": {
+			"type": "secureString",
+			"metadata": "Secure string for 'password' of 'FileServer1'"
+		},
 		"kkdatalake2_accountKey": {
 			"type": "secureString",
 			"metadata": "Secure string for 'accountKey' of 'kkdatalake2'"
+		},
+		"localsqlserver_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'localsqlserver'"
+		},
+		"localsqlserver_password": {
+			"type": "secureString",
+			"metadata": "Secure string for 'password' of 'localsqlserver'"
 		},
 		"targetazuredb_connectionString": {
 			"type": "secureString",
 			"metadata": "Secure string for 'connectionString' of 'targetazuredb'"
 		},
+		"FileServer1_properties_typeProperties_host": {
+			"type": "string",
+			"defaultValue": "e:\\"
+		},
+		"FileServer1_properties_typeProperties_userId": {
+			"type": "string",
+			"defaultValue": "kuldeep1"
+		},
 		"kkdatalake2_properties_typeProperties_url": {
 			"type": "string",
 			"defaultValue": "https://kkdl456.dfs.core.windows.net/"
+		},
+		"localsqlserver_properties_typeProperties_userName": {
+			"type": "string",
+			"defaultValue": "kuldeep\\kuldeep1"
 		},
 		"containerUri": {
 			"type": "string",
@@ -60,6 +88,9 @@
 					"AzureSqlDatabase2_connectionString": {
 						"value": "[parameters('AzureSqlDatabase2_connectionString')]"
 					},
+					"AzureSynapseAnalytics1_connectionString": {
+						"value": "[parameters('AzureSynapseAnalytics1_connectionString')]"
+					},
 					"kkdatalake2_accountKey": {
 						"value": "[parameters('kkdatalake2_accountKey')]"
 					},
@@ -86,6 +117,24 @@
 				"parameters": {
 					"factoryName": {
 						"value": "[parameters('factoryName')]"
+					},
+					"FileServer1_password": {
+						"value": "[parameters('FileServer1_password')]"
+					},
+					"localsqlserver_connectionString": {
+						"value": "[parameters('localsqlserver_connectionString')]"
+					},
+					"localsqlserver_password": {
+						"value": "[parameters('localsqlserver_password')]"
+					},
+					"FileServer1_properties_typeProperties_host": {
+						"value": "[parameters('FileServer1_properties_typeProperties_host')]"
+					},
+					"FileServer1_properties_typeProperties_userId": {
+						"value": "[parameters('FileServer1_properties_typeProperties_userId')]"
+					},
+					"localsqlserver_properties_typeProperties_userName": {
+						"value": "[parameters('localsqlserver_properties_typeProperties_userName')]"
 					}
 				}
 			},
