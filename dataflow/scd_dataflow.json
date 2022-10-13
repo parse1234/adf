@@ -1,0 +1,107 @@
+{
+	"name": "scd_dataflow",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "emp_new",
+						"type": "DatasetReference"
+					},
+					"name": "empnewcsv"
+				},
+				{
+					"dataset": {
+						"referenceName": "AzureSqlTablescd",
+						"type": "DatasetReference"
+					},
+					"name": "dimempscd"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "AzureSqlTablescd",
+						"type": "DatasetReference"
+					},
+					"name": "sink1"
+				}
+			],
+			"transformations": [
+				{
+					"name": "hashempcsv"
+				},
+				{
+					"name": "hashdimemp"
+				},
+				{
+					"name": "exists1"
+				},
+				{
+					"name": "derivedColumn1"
+				}
+			],
+			"scriptLines": [
+				"source(output(",
+				"          empid as integer,",
+				"          ename as string,",
+				"          salary as integer,",
+				"          dname as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false) ~> empnewcsv",
+				"source(output(",
+				"          eid as integer,",
+				"          ename as string,",
+				"          salary as integer,",
+				"          dname as string,",
+				"          isactive as integer,",
+				"          startdate as timestamp,",
+				"          enddate as timestamp",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     format: 'table') ~> dimempscd",
+				"empnewcsv derive(hashempcsv1 = md5(ename,salary,dname)) ~> hashempcsv",
+				"dimempscd derive(hash1 = md5(ename,salary,dname)) ~> hashdimemp",
+				"hashempcsv, hashdimemp exists(hashempcsv1 == hash1,",
+				"     negate:true,",
+				"     broadcast: 'auto')~> exists1",
+				"exists1 derive(isactive = 1,",
+				"          startdate = currentDate(),",
+				"          enddate = toDate('9999-1-1')) ~> derivedColumn1",
+				"derivedColumn1 sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     input(",
+				"          eid as integer,",
+				"          ename as string,",
+				"          salary as integer,",
+				"          dname as string,",
+				"          isactive as integer,",
+				"          startdate as timestamp,",
+				"          enddate as timestamp",
+				"     ),",
+				"     deletable:false,",
+				"     insertable:true,",
+				"     updateable:false,",
+				"     upsertable:false,",
+				"     format: 'table',",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     errorHandlingOption: 'stopOnFirstError',",
+				"     mapColumn(",
+				"          eid = empid,",
+				"          ename,",
+				"          salary,",
+				"          dname,",
+				"          isactive,",
+				"          startdate,",
+				"          enddate",
+				"     )) ~> sink1"
+			]
+		}
+	}
+}
