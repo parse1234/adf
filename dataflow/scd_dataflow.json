@@ -26,6 +26,13 @@
 						"type": "DatasetReference"
 					},
 					"name": "sink1"
+				},
+				{
+					"dataset": {
+						"referenceName": "AzureSqlTablescd",
+						"type": "DatasetReference"
+					},
+					"name": "sink2"
 				}
 			],
 			"transformations": [
@@ -40,6 +47,15 @@
 				},
 				{
 					"name": "derivedColumn1"
+				},
+				{
+					"name": "exists2"
+				},
+				{
+					"name": "derivedColumn2"
+				},
+				{
+					"name": "alterRow1"
 				}
 			],
 			"scriptLines": [
@@ -73,6 +89,13 @@
 				"exists1 derive(isactive = 1,",
 				"          startdate = currentDate(),",
 				"          enddate = toDate('9999-1-1')) ~> derivedColumn1",
+				"hashdimemp, derivedColumn1 exists(eid == empid",
+				"     && dimempscd@ename == empnewcsv@ename,",
+				"     negate:false,",
+				"     broadcast: 'auto')~> exists2",
+				"exists2 derive(isactive = 0,",
+				"          enddate = currentDate()) ~> derivedColumn2",
+				"derivedColumn2 alterRow(updateIf(true())) ~> alterRow1",
 				"derivedColumn1 sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     input(",
@@ -100,7 +123,37 @@
 				"          isactive,",
 				"          startdate,",
 				"          enddate",
-				"     )) ~> sink1"
+				"     )) ~> sink1",
+				"alterRow1 sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     input(",
+				"          eid as integer,",
+				"          ename as string,",
+				"          salary as integer,",
+				"          dname as string,",
+				"          isactive as integer,",
+				"          startdate as timestamp,",
+				"          enddate as timestamp",
+				"     ),",
+				"     deletable:false,",
+				"     insertable:false,",
+				"     updateable:true,",
+				"     upsertable:true,",
+				"     keys:['eid','ename'],",
+				"     skipKeyWrites:true,",
+				"     format: 'table',",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     errorHandlingOption: 'stopOnFirstError',",
+				"     mapColumn(",
+				"          eid,",
+				"          ename,",
+				"          salary,",
+				"          dname,",
+				"          isactive,",
+				"          startdate,",
+				"          enddate",
+				"     )) ~> sink2"
 			]
 		}
 	}
