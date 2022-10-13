@@ -128,20 +128,11 @@
 					"FileServer1_password": {
 						"value": "[parameters('FileServer1_password')]"
 					},
-					"localsqlserver_connectionString": {
-						"value": "[parameters('localsqlserver_connectionString')]"
-					},
-					"localsqlserver_password": {
-						"value": "[parameters('localsqlserver_password')]"
-					},
 					"FileServer1_properties_typeProperties_host": {
 						"value": "[parameters('FileServer1_properties_typeProperties_host')]"
 					},
 					"FileServer1_properties_typeProperties_userId": {
 						"value": "[parameters('FileServer1_properties_typeProperties_userId')]"
-					},
-					"localsqlserver_properties_typeProperties_userName": {
-						"value": "[parameters('localsqlserver_properties_typeProperties_userName')]"
 					}
 				}
 			},
@@ -162,6 +153,15 @@
 				"parameters": {
 					"factoryName": {
 						"value": "[parameters('factoryName')]"
+					},
+					"localsqlserver_connectionString": {
+						"value": "[parameters('localsqlserver_connectionString')]"
+					},
+					"localsqlserver_password": {
+						"value": "[parameters('localsqlserver_password')]"
+					},
+					"localsqlserver_properties_typeProperties_userName": {
+						"value": "[parameters('localsqlserver_properties_typeProperties_userName')]"
 					}
 				}
 			},
