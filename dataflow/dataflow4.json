@@ -33,7 +33,7 @@
 				"source(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     ignoreNoFilesFound: false,",
-				"     wildcardPaths:[(concat('input/', $dfname))]) ~> source1",
+				"     wildcardPaths:[(concat('/input/', $dfname))]) ~> source1",
 				"source1 derive(test1 = 1) ~> derivedColumn1",
 				"derivedColumn1 sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
