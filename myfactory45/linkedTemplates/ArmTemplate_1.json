@@ -487,7 +487,6 @@
 				"typeProperties": {
 					"location": {
 						"type": "AzureBlobFSLocation",
-						"folderPath": "input",
 						"fileSystem": "data"
 					},
 					"columnDelimiter": ",",
