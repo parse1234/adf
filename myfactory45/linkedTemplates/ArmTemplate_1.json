@@ -303,6 +303,45 @@
 			"dependsOn": []
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/high')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureSqlDatabase1",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "did",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "dname",
+						"type": "varchar"
+					},
+					{
+						"name": "revnue",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "targetrev",
+						"type": "int",
+						"precision": 10
+					}
+				],
+				"typeProperties": {
+					"schema": "dbo",
+					"table": "highrvn"
+				}
+			},
+			"dependsOn": []
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/input_folder')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -351,6 +390,45 @@
 					"quoteChar": "\""
 				},
 				"schema": []
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/low')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureSqlDatabase1",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "did",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "dname",
+						"type": "varchar"
+					},
+					{
+						"name": "revnue",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "targetrev",
+						"type": "int",
+						"precision": 10
+					}
+				],
+				"typeProperties": {
+					"schema": "dbo",
+					"table": "lowrvn"
+				}
 			},
 			"dependsOn": []
 		},
@@ -1546,300 +1624,6 @@
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/db2table')]",
 				"[concat(variables('factoryId'), '/datasets/output_folder')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/dataflow2')]",
-			"type": "Microsoft.DataFactory/factories/dataflows",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"type": "MappingDataFlow",
-				"typeProperties": {
-					"sources": [
-						{
-							"dataset": {
-								"referenceName": "dataflowdept",
-								"type": "DatasetReference"
-							},
-							"name": "dept"
-						},
-						{
-							"dataset": {
-								"referenceName": "dataflowemp",
-								"type": "DatasetReference"
-							},
-							"name": "emp"
-						}
-					],
-					"sinks": [
-						{
-							"dataset": {
-								"referenceName": "AzureSynapseAnalyticsTable1",
-								"type": "DatasetReference"
-							},
-							"name": "sink1"
-						},
-						{
-							"dataset": {
-								"referenceName": "AzureSynapseAnalyticsTable2",
-								"type": "DatasetReference"
-							},
-							"name": "sink2"
-						}
-					],
-					"transformations": [
-						{
-							"name": "Renaming"
-						},
-						{
-							"name": "AddingTargetrevenue"
-						},
-						{
-							"name": "join1"
-						},
-						{
-							"name": "select1"
-						}
-					],
-					"scriptLines": [
-						"source(output(",
-						"          dept_id as integer,",
-						"          dname as string,",
-						"          totalrevenue as integer",
-						"     ),",
-						"     allowSchemaDrift: true,",
-						"     validateSchema: false,",
-						"     ignoreNoFilesFound: false) ~> dept",
-						"source(output(",
-						"          empid as integer,",
-						"          ename as string,",
-						"          salary as integer,",
-						"          did as integer",
-						"     ),",
-						"     allowSchemaDrift: true,",
-						"     validateSchema: false,",
-						"     ignoreNoFilesFound: false) ~> emp",
-						"emp select(mapColumn(",
-						"          eid = empid,",
-						"          ename,",
-						"          salary,",
-						"          did",
-						"     ),",
-						"     skipDuplicateMapInputs: true,",
-						"     skipDuplicateMapOutputs: true) ~> Renaming",
-						"dept derive(TargetRevenue = totalrevenue+(totalrevenue*20/100),",
-						"          dname = initCap(dname)) ~> AddingTargetrevenue",
-						"Renaming, AddingTargetrevenue join(did == dept_id,",
-						"     joinType:'inner',",
-						"     matchType:'exact',",
-						"     ignoreSpaces: false,",
-						"     broadcast: 'auto')~> join1",
-						"join1 select(mapColumn(",
-						"          eid,",
-						"          ename,",
-						"          salary,",
-						"          dname",
-						"     ),",
-						"     skipDuplicateMapInputs: true,",
-						"     skipDuplicateMapOutputs: true) ~> select1",
-						"select1 sink(allowSchemaDrift: true,",
-						"     validateSchema: false,",
-						"     input(",
-						"          eid as integer,",
-						"          ename as string,",
-						"          salary as integer,",
-						"          dname as string",
-						"     ),",
-						"     deletable:false,",
-						"     insertable:true,",
-						"     updateable:false,",
-						"     upsertable:false,",
-						"     format: 'table',",
-						"     staged: false,",
-						"     skipDuplicateMapInputs: true,",
-						"     skipDuplicateMapOutputs: true,",
-						"     errorHandlingOption: 'stopOnFirstError',",
-						"     mapColumn(",
-						"          eid,",
-						"          ename,",
-						"          salary,",
-						"          dname",
-						"     )) ~> sink1",
-						"AddingTargetrevenue sink(allowSchemaDrift: true,",
-						"     validateSchema: false,",
-						"     input(",
-						"          dept_id as integer,",
-						"          dname as string,",
-						"          Totalrevenue as integer,",
-						"          tragetrevenue as integer",
-						"     ),",
-						"     deletable:false,",
-						"     insertable:true,",
-						"     updateable:false,",
-						"     upsertable:false,",
-						"     format: 'table',",
-						"     staged: false,",
-						"     skipDuplicateMapInputs: true,",
-						"     skipDuplicateMapOutputs: true,",
-						"     errorHandlingOption: 'stopOnFirstError',",
-						"     mapColumn(",
-						"          dept_id,",
-						"          dname,",
-						"          Totalrevenue = totalrevenue,",
-						"          tragetrevenue = TargetRevenue",
-						"     )) ~> sink2"
-					]
-				}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/datasets/dataflowdept')]",
-				"[concat(variables('factoryId'), '/datasets/dataflowemp')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/dataflow3')]",
-			"type": "Microsoft.DataFactory/factories/dataflows",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"type": "MappingDataFlow",
-				"typeProperties": {
-					"sources": [
-						{
-							"dataset": {
-								"referenceName": "batch2dept",
-								"type": "DatasetReference"
-							},
-							"name": "dept"
-						},
-						{
-							"dataset": {
-								"referenceName": "batch2emp",
-								"type": "DatasetReference"
-							},
-							"name": "emp"
-						}
-					],
-					"sinks": [
-						{
-							"dataset": {
-								"referenceName": "Targetemp",
-								"type": "DatasetReference"
-							},
-							"name": "sink1"
-						},
-						{
-							"dataset": {
-								"referenceName": "Targetdept",
-								"type": "DatasetReference"
-							},
-							"name": "sink2"
-						}
-					],
-					"transformations": [
-						{
-							"name": "chnagethedept"
-						},
-						{
-							"name": "derivedColumn1"
-						},
-						{
-							"name": "select1"
-						},
-						{
-							"name": "join1"
-						},
-						{
-							"name": "select2"
-						}
-					],
-					"scriptLines": [
-						"source(output(",
-						"          dept_id as integer,",
-						"          dname as string,",
-						"          totalrevenue as integer",
-						"     ),",
-						"     allowSchemaDrift: true,",
-						"     validateSchema: false,",
-						"     ignoreNoFilesFound: false) ~> dept",
-						"source(output(",
-						"          empid as integer,",
-						"          ename as string,",
-						"          salary as integer,",
-						"          did as integer",
-						"     ),",
-						"     allowSchemaDrift: true,",
-						"     validateSchema: false,",
-						"     ignoreNoFilesFound: false) ~> emp",
-						"dept derive(dname = initCap(dname),",
-						"          targetrevenue = totalrevenue+(totalrevenue*20/100)) ~> chnagethedept",
-						"emp derive(ename = initCap(ename)) ~> derivedColumn1",
-						"derivedColumn1 select(mapColumn(",
-						"          eid = empid,",
-						"          ename,",
-						"          salary,",
-						"          did",
-						"     ),",
-						"     skipDuplicateMapInputs: true,",
-						"     skipDuplicateMapOutputs: true) ~> select1",
-						"select1, dept join(did == dept_id,",
-						"     joinType:'inner',",
-						"     matchType:'exact',",
-						"     ignoreSpaces: false,",
-						"     broadcast: 'auto')~> join1",
-						"join1 select(mapColumn(",
-						"          eid,",
-						"          ename,",
-						"          salary,",
-						"          dname",
-						"     ),",
-						"     skipDuplicateMapInputs: true,",
-						"     skipDuplicateMapOutputs: true) ~> select2",
-						"select2 sink(allowSchemaDrift: true,",
-						"     validateSchema: false,",
-						"     input(",
-						"          eid as integer,",
-						"          ename as string,",
-						"          salary as integer,",
-						"          dname as string",
-						"     ),",
-						"     deletable:false,",
-						"     insertable:true,",
-						"     updateable:false,",
-						"     upsertable:false,",
-						"     format: 'table',",
-						"     staged: false,",
-						"     skipDuplicateMapInputs: true,",
-						"     skipDuplicateMapOutputs: true,",
-						"     errorHandlingOption: 'stopOnFirstError') ~> sink1",
-						"chnagethedept sink(allowSchemaDrift: true,",
-						"     validateSchema: false,",
-						"     input(",
-						"          did as integer,",
-						"          dname as string,",
-						"          totalrevenue as integer,",
-						"          targetrevenue as integer",
-						"     ),",
-						"     deletable:false,",
-						"     insertable:true,",
-						"     updateable:false,",
-						"     upsertable:false,",
-						"     format: 'table',",
-						"     staged: false,",
-						"     skipDuplicateMapInputs: true,",
-						"     skipDuplicateMapOutputs: true,",
-						"     errorHandlingOption: 'stopOnFirstError',",
-						"     mapColumn(",
-						"          did = dept_id,",
-						"          dname,",
-						"          totalrevenue,",
-						"          targetrevenue",
-						"     )) ~> sink2"
-					]
-				}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/datasets/batch2dept')]",
-				"[concat(variables('factoryId'), '/datasets/batch2emp')]"
 			]
 		}
 	]
