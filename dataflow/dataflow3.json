@@ -29,10 +29,17 @@
 				},
 				{
 					"dataset": {
-						"referenceName": "Targetdept",
+						"referenceName": "high",
 						"type": "DatasetReference"
 					},
 					"name": "sink2"
+				},
+				{
+					"dataset": {
+						"referenceName": "low",
+						"type": "DatasetReference"
+					},
+					"name": "sink3"
 				}
 			],
 			"transformations": [
@@ -50,6 +57,9 @@
 				},
 				{
 					"name": "select2"
+				},
+				{
+					"name": "split1"
 				}
 			],
 			"scriptLines": [
@@ -94,6 +104,8 @@
 				"     ),",
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true) ~> select2",
+				"chnagethedept split(totalrevenue>=40000,",
+				"     disjoint: false) ~> split1@(high, low)",
 				"select2 sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     input(",
@@ -111,29 +123,50 @@
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true,",
 				"     errorHandlingOption: 'stopOnFirstError') ~> sink1",
-				"chnagethedept sink(allowSchemaDrift: true,",
+				"split1@high sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     input(",
 				"          did as integer,",
 				"          dname as string,",
-				"          totalrevenue as integer,",
-				"          targetrevenue as integer",
+				"          revnue as integer,",
+				"          targetrev as integer",
 				"     ),",
 				"     deletable:false,",
 				"     insertable:true,",
 				"     updateable:false,",
 				"     upsertable:false,",
 				"     format: 'table',",
-				"     staged: false,",
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true,",
 				"     errorHandlingOption: 'stopOnFirstError',",
 				"     mapColumn(",
 				"          did = dept_id,",
 				"          dname,",
-				"          totalrevenue,",
-				"          targetrevenue",
-				"     )) ~> sink2"
+				"          revnue = totalrevenue,",
+				"          targetrev = targetrevenue",
+				"     )) ~> sink2",
+				"split1@low sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     input(",
+				"          did as integer,",
+				"          dname as string,",
+				"          revnue as integer,",
+				"          targetrev as integer",
+				"     ),",
+				"     deletable:false,",
+				"     insertable:true,",
+				"     updateable:false,",
+				"     upsertable:false,",
+				"     format: 'table',",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     errorHandlingOption: 'stopOnFirstError',",
+				"     mapColumn(",
+				"          did = dept_id,",
+				"          dname,",
+				"          revnue = totalrevenue,",
+				"          targetrev = targetrevenue",
+				"     )) ~> sink3"
 			]
 		}
 	}

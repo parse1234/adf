@@ -1,0 +1,36 @@
+{
+	"name": "low",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureSqlDatabase1",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "did",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "dname",
+				"type": "varchar"
+			},
+			{
+				"name": "revnue",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "targetrev",
+				"type": "int",
+				"precision": 10
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "lowrvn"
+		}
+	}
+}
