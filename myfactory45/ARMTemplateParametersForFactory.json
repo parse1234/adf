@@ -5,6 +5,9 @@
 		"factoryName": {
 			"value": "myfactory45"
 		},
+		"AzureDatabricks1_accessToken": {
+			"value": ""
+		},
 		"AzureSqlDatabase1_connectionString": {
 			"value": ""
 		},
@@ -18,6 +21,9 @@
 			"value": ""
 		},
 		"FileServer1_password": {
+			"value": ""
+		},
+		"cogadb123_accessToken": {
 			"value": ""
 		},
 		"kkdatalake2_accountKey": {
