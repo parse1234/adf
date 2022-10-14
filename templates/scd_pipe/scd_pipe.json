@@ -1,0 +1,323 @@
+{
+	"$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"type": "string",
+			"metadata": "Data Factory name"
+		},
+		"kkdatalake2": {
+			"type": "string"
+		},
+		"AzureSqlDatabase1": {
+			"type": "string"
+		}
+	},
+	"variables": {
+		"factoryId": "[concat('Microsoft.DataFactory/factories/', parameters('factoryName'))]"
+	},
+	"resources": [
+		{
+			"name": "[concat(parameters('factoryName'), '/scd_pipe')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "Data flow1",
+						"type": "ExecuteDataFlow",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"dataflow": {
+								"referenceName": "scd_dataflow",
+								"type": "DataFlowReference"
+							},
+							"compute": {
+								"coreCount": 8,
+								"computeType": "General"
+							},
+							"traceLevel": "Fine"
+						}
+					}
+				],
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/dataflows/scd_dataflow')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/scd_dataflow')]",
+			"type": "Microsoft.DataFactory/factories/dataflows",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"type": "MappingDataFlow",
+				"typeProperties": {
+					"sources": [
+						{
+							"dataset": {
+								"referenceName": "emp_new",
+								"type": "DatasetReference"
+							},
+							"name": "empnewcsv"
+						},
+						{
+							"dataset": {
+								"referenceName": "AzureSqlTablescd",
+								"type": "DatasetReference"
+							},
+							"name": "dimempscd"
+						}
+					],
+					"sinks": [
+						{
+							"dataset": {
+								"referenceName": "AzureSqlTablescd",
+								"type": "DatasetReference"
+							},
+							"name": "sink1"
+						},
+						{
+							"dataset": {
+								"referenceName": "AzureSqlTablescd",
+								"type": "DatasetReference"
+							},
+							"name": "sink2"
+						}
+					],
+					"transformations": [
+						{
+							"name": "hashempcsv"
+						},
+						{
+							"name": "hashdimemp"
+						},
+						{
+							"name": "exists1"
+						},
+						{
+							"name": "derivedColumn1"
+						},
+						{
+							"name": "exists2"
+						},
+						{
+							"name": "derivedColumn2"
+						},
+						{
+							"name": "alterRow1"
+						}
+					],
+					"scriptLines": [
+						"source(output(",
+						"          empid as integer,",
+						"          ename as string,",
+						"          salary as integer,",
+						"          dname as string",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     ignoreNoFilesFound: false) ~> empnewcsv",
+						"source(output(",
+						"          eid as integer,",
+						"          ename as string,",
+						"          salary as integer,",
+						"          dname as string,",
+						"          isactive as integer,",
+						"          startdate as timestamp,",
+						"          enddate as timestamp",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     isolationLevel: 'READ_UNCOMMITTED',",
+						"     format: 'table') ~> dimempscd",
+						"empnewcsv derive(hashempcsv1 = md5(ename,salary,dname)) ~> hashempcsv",
+						"dimempscd derive(hash1 = md5(ename,salary,dname)) ~> hashdimemp",
+						"hashempcsv, hashdimemp exists(hashempcsv1 == hash1,",
+						"     negate:true,",
+						"     broadcast: 'auto')~> exists1",
+						"exists1 derive(isactive = 1,",
+						"          startdate = currentDate(),",
+						"          enddate = toDate('9999-1-1')) ~> derivedColumn1",
+						"hashdimemp, derivedColumn1 exists(eid == empid",
+						"     && dimempscd@ename == empnewcsv@ename,",
+						"     negate:false,",
+						"     broadcast: 'auto')~> exists2",
+						"exists2 derive(isactive = 0,",
+						"          enddate = currentDate()) ~> derivedColumn2",
+						"derivedColumn2 alterRow(updateIf(true())) ~> alterRow1",
+						"derivedColumn1 sink(allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     input(",
+						"          eid as integer,",
+						"          ename as string,",
+						"          salary as integer,",
+						"          dname as string,",
+						"          isactive as integer,",
+						"          startdate as timestamp,",
+						"          enddate as timestamp",
+						"     ),",
+						"     deletable:false,",
+						"     insertable:true,",
+						"     updateable:false,",
+						"     upsertable:false,",
+						"     format: 'table',",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true,",
+						"     errorHandlingOption: 'stopOnFirstError',",
+						"     mapColumn(",
+						"          eid = empid,",
+						"          ename,",
+						"          salary,",
+						"          dname,",
+						"          isactive,",
+						"          startdate,",
+						"          enddate",
+						"     )) ~> sink1",
+						"alterRow1 sink(allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     input(",
+						"          eid as integer,",
+						"          ename as string,",
+						"          salary as integer,",
+						"          dname as string,",
+						"          isactive as integer,",
+						"          startdate as timestamp,",
+						"          enddate as timestamp",
+						"     ),",
+						"     deletable:false,",
+						"     insertable:false,",
+						"     updateable:true,",
+						"     upsertable:true,",
+						"     keys:['eid','ename'],",
+						"     skipKeyWrites:true,",
+						"     format: 'table',",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true,",
+						"     errorHandlingOption: 'stopOnFirstError',",
+						"     mapColumn(",
+						"          eid,",
+						"          ename,",
+						"          salary,",
+						"          dname,",
+						"          isactive,",
+						"          startdate,",
+						"          enddate",
+						"     )) ~> sink2"
+					]
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/emp_new')]",
+				"[concat(variables('factoryId'), '/datasets/AzureSqlTablescd')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/emp_new')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "[parameters('kkdatalake2')]",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobFSLocation",
+						"fileName": "emp_new.csv",
+						"folderPath": "input",
+						"fileSystem": "data"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "empid",
+						"type": "String"
+					},
+					{
+						"name": "ename",
+						"type": "String"
+					},
+					{
+						"name": "salary",
+						"type": "String"
+					},
+					{
+						"name": "dname",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/AzureSqlTablescd')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "[parameters('AzureSqlDatabase1')]",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "eid",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "ename",
+						"type": "varchar"
+					},
+					{
+						"name": "salary",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "dname",
+						"type": "varchar"
+					},
+					{
+						"name": "isactive",
+						"type": "smallint",
+						"precision": 5
+					},
+					{
+						"name": "startdate",
+						"type": "datetime",
+						"precision": 23,
+						"scale": 3
+					},
+					{
+						"name": "enddate",
+						"type": "datetime",
+						"precision": 23,
+						"scale": 3
+					}
+				],
+				"typeProperties": {
+					"schema": "dbo",
+					"table": "dim_emp_scd"
+				}
+			},
+			"dependsOn": []
+		}
+	]
+}
