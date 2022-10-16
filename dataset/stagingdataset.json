@@ -1,0 +1,60 @@
+{
+	"name": "stagingdataset",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureSqlDatabase1",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "studentId",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "studentName",
+				"type": "varchar"
+			},
+			{
+				"name": "stream",
+				"type": "varchar"
+			},
+			{
+				"name": "marks",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "createDate",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "updateDate",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "SYS_CHANGE_VERSION",
+				"type": "bigint",
+				"precision": 19
+			},
+			{
+				"name": "SYS_CHANGE_OPERATION",
+				"type": "char"
+			},
+			{
+				"name": "SYS_CHANGE_COLUMNS",
+				"type": "varbinary"
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "stgStudentCt"
+		}
+	}
+}
