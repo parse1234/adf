@@ -21,10 +21,6 @@
 			],
 			"sinks": [
 				{
-					"dataset": {
-						"referenceName": "Targetemp",
-						"type": "DatasetReference"
-					},
 					"name": "sink1"
 				},
 				{
@@ -108,21 +104,9 @@
 				"     disjoint: false) ~> split1@(high, low)",
 				"select2 sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
-				"     input(",
-				"          eid as integer,",
-				"          ename as string,",
-				"          salary as integer,",
-				"          dname as string",
-				"     ),",
-				"     deletable:false,",
-				"     insertable:true,",
-				"     updateable:false,",
-				"     upsertable:false,",
-				"     format: 'table',",
-				"     staged: false,",
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true,",
-				"     errorHandlingOption: 'stopOnFirstError') ~> sink1",
+				"     format: 'table') ~> sink1",
 				"split1@high sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     input(",
