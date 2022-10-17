@@ -11,9 +11,6 @@
 		"AzureSqlDatabase2_connectionString": {
 			"value": ""
 		},
-		"AzureSynapseAnalytics1_connectionString": {
-			"value": ""
-		},
 		"AzureSynapseAnalytics2_connectionString": {
 			"value": ""
 		},

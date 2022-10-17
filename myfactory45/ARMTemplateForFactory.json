@@ -15,10 +15,6 @@
 			"type": "secureString",
 			"metadata": "Secure string for 'connectionString' of 'AzureSqlDatabase2'"
 		},
-		"AzureSynapseAnalytics1_connectionString": {
-			"type": "secureString",
-			"metadata": "Secure string for 'connectionString' of 'AzureSynapseAnalytics1'"
-		},
 		"AzureSynapseAnalytics2_connectionString": {
 			"type": "secureString",
 			"metadata": "Secure string for 'connectionString' of 'AzureSynapseAnalytics2'"
@@ -2872,87 +2868,6 @@
 			]
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/Targetdept')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "AzureSynapseAnalytics2",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "AzureSqlDWTable",
-				"schema": [
-					{
-						"name": "did",
-						"type": "int",
-						"precision": 10
-					},
-					{
-						"name": "dname",
-						"type": "varchar"
-					},
-					{
-						"name": "totalrevenue",
-						"type": "int",
-						"precision": 10
-					},
-					{
-						"name": "targetrevenue",
-						"type": "int",
-						"precision": 10
-					}
-				],
-				"typeProperties": {
-					"schema": "dbo",
-					"table": "batch2dept"
-				}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/AzureSynapseAnalytics2')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/Targetemp')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "AzureSynapseAnalytics2",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "AzureSqlDWTable",
-				"schema": [
-					{
-						"name": "eid",
-						"type": "int",
-						"precision": 10
-					},
-					{
-						"name": "ename",
-						"type": "varchar"
-					},
-					{
-						"name": "salary",
-						"type": "int",
-						"precision": 10
-					},
-					{
-						"name": "dname",
-						"type": "varchar"
-					}
-				],
-				"typeProperties": {
-					"schema": "dbo",
-					"table": "batch2emp"
-				}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/AzureSynapseAnalytics2')]"
-			]
-		},
-		{
 			"name": "[concat(parameters('factoryName'), '/batch2dept')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -3945,19 +3860,6 @@
 			"dependsOn": []
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/AzureSynapseAnalytics1')]",
-			"type": "Microsoft.DataFactory/factories/linkedServices",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"annotations": [],
-				"type": "AzureSqlDW",
-				"typeProperties": {
-					"connectionString": "[parameters('AzureSynapseAnalytics1_connectionString')]"
-				}
-			},
-			"dependsOn": []
-		},
-		{
 			"name": "[concat(parameters('factoryName'), '/AzureSynapseAnalytics2')]",
 			"type": "Microsoft.DataFactory/factories/linkedServices",
 			"apiVersion": "2018-06-01",
@@ -4182,7 +4084,7 @@
 					"sinks": [
 						{
 							"dataset": {
-								"referenceName": "Targetemp",
+								"referenceName": "AzureSqlTable1",
 								"type": "DatasetReference"
 							},
 							"name": "sink1"
@@ -4268,18 +4170,11 @@
 						"     disjoint: false) ~> split1@(high, low)",
 						"select2 sink(allowSchemaDrift: true,",
 						"     validateSchema: false,",
-						"     input(",
-						"          eid as integer,",
-						"          ename as string,",
-						"          salary as integer,",
-						"          dname as string",
-						"     ),",
 						"     deletable:false,",
 						"     insertable:true,",
 						"     updateable:false,",
 						"     upsertable:false,",
 						"     format: 'table',",
-						"     staged: false,",
 						"     skipDuplicateMapInputs: true,",
 						"     skipDuplicateMapOutputs: true,",
 						"     errorHandlingOption: 'stopOnFirstError') ~> sink1",
@@ -4333,7 +4228,7 @@
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/batch2dept')]",
 				"[concat(variables('factoryId'), '/datasets/batch2emp')]",
-				"[concat(variables('factoryId'), '/datasets/Targetemp')]",
+				"[concat(variables('factoryId'), '/datasets/AzureSqlTable1')]",
 				"[concat(variables('factoryId'), '/datasets/high')]",
 				"[concat(variables('factoryId'), '/datasets/low')]"
 			]
