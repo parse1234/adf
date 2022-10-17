@@ -23,6 +23,11 @@
 								"value": "@pipeline().parameters.price",
 								"type": "Expression"
 							}
+						},
+						"datasetParameters": {
+							"sink1": {
+								"sourcename": "fdgdfd"
+							}
 						}
 					},
 					"compute": {
