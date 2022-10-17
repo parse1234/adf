@@ -15,29 +15,13 @@
 			"type": "secureString",
 			"metadata": "Secure string for 'connectionString' of 'AzureSqlDatabase2'"
 		},
-		"AzureSynapseAnalytics2_connectionString": {
-			"type": "secureString",
-			"metadata": "Secure string for 'connectionString' of 'AzureSynapseAnalytics2'"
-		},
 		"kkdatalake2_accountKey": {
 			"type": "secureString",
 			"metadata": "Secure string for 'accountKey' of 'kkdatalake2'"
 		},
-		"localsqlserver_connectionString": {
-			"type": "secureString",
-			"metadata": "Secure string for 'connectionString' of 'localsqlserver'"
-		},
-		"localsqlserver_password": {
-			"type": "secureString",
-			"metadata": "Secure string for 'password' of 'localsqlserver'"
-		},
 		"kkdatalake2_properties_typeProperties_url": {
 			"type": "string",
 			"defaultValue": "https://kkdl456.dfs.core.windows.net/"
-		},
-		"localsqlserver_properties_typeProperties_userName": {
-			"type": "string",
-			"defaultValue": "kuldeep\\kuldeep1"
 		},
 		"containerUri": {
 			"type": "string",
@@ -71,9 +55,6 @@
 					},
 					"AzureSqlDatabase2_connectionString": {
 						"value": "[parameters('AzureSqlDatabase2_connectionString')]"
-					},
-					"AzureSynapseAnalytics2_connectionString": {
-						"value": "[parameters('AzureSynapseAnalytics2_connectionString')]"
 					},
 					"kkdatalake2_accountKey": {
 						"value": "[parameters('kkdatalake2_accountKey')]"
@@ -118,15 +99,6 @@
 				"parameters": {
 					"factoryName": {
 						"value": "[parameters('factoryName')]"
-					},
-					"localsqlserver_connectionString": {
-						"value": "[parameters('localsqlserver_connectionString')]"
-					},
-					"localsqlserver_password": {
-						"value": "[parameters('localsqlserver_password')]"
-					},
-					"localsqlserver_properties_typeProperties_userName": {
-						"value": "[parameters('localsqlserver_properties_typeProperties_userName')]"
 					}
 				}
 			},
