@@ -17,7 +17,15 @@
 				"typeProperties": {
 					"dataflow": {
 						"referenceName": "dataflow2",
-						"type": "DataFlowReference"
+						"type": "DataFlowReference",
+						"datasetParameters": {
+							"sink1": {
+								"sourcename": "gdg"
+							},
+							"sink2": {
+								"sourcename": "tr"
+							}
+						}
 					},
 					"compute": {
 						"coreCount": 8,
