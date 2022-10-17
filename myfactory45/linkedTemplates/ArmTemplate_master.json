@@ -7,14 +7,6 @@
 			"metadata": "Data Factory name",
 			"defaultValue": "myfactory45"
 		},
-		"AzureBlobStorage1_connectionString": {
-			"type": "secureString",
-			"metadata": "Secure string for 'connectionString' of 'AzureBlobStorage1'"
-		},
-		"AzureDatabricks1_accessToken": {
-			"type": "secureString",
-			"metadata": "Secure string for 'accessToken' of 'AzureDatabricks1'"
-		},
 		"AzureSqlDatabase1_connectionString": {
 			"type": "secureString",
 			"metadata": "Secure string for 'connectionString' of 'AzureSqlDatabase1'"
@@ -31,14 +23,6 @@
 			"type": "secureString",
 			"metadata": "Secure string for 'connectionString' of 'AzureSynapseAnalytics2'"
 		},
-		"FileServer1_password": {
-			"type": "secureString",
-			"metadata": "Secure string for 'password' of 'FileServer1'"
-		},
-		"cogadb123_accessToken": {
-			"type": "secureString",
-			"metadata": "Secure string for 'accessToken' of 'cogadb123'"
-		},
 		"kkdatalake2_accountKey": {
 			"type": "secureString",
 			"metadata": "Secure string for 'accountKey' of 'kkdatalake2'"
@@ -50,18 +34,6 @@
 		"localsqlserver_password": {
 			"type": "secureString",
 			"metadata": "Secure string for 'password' of 'localsqlserver'"
-		},
-		"targetazuredb_connectionString": {
-			"type": "secureString",
-			"metadata": "Secure string for 'connectionString' of 'targetazuredb'"
-		},
-		"FileServer1_properties_typeProperties_host": {
-			"type": "string",
-			"defaultValue": "e:\\"
-		},
-		"FileServer1_properties_typeProperties_userId": {
-			"type": "string",
-			"defaultValue": "kuldeep1"
 		},
 		"kkdatalake2_properties_typeProperties_url": {
 			"type": "string",
@@ -98,12 +70,6 @@
 					"factoryName": {
 						"value": "[parameters('factoryName')]"
 					},
-					"AzureBlobStorage1_connectionString": {
-						"value": "[parameters('AzureBlobStorage1_connectionString')]"
-					},
-					"AzureDatabricks1_accessToken": {
-						"value": "[parameters('AzureDatabricks1_accessToken')]"
-					},
 					"AzureSqlDatabase1_connectionString": {
 						"value": "[parameters('AzureSqlDatabase1_connectionString')]"
 					},
@@ -116,14 +82,8 @@
 					"AzureSynapseAnalytics2_connectionString": {
 						"value": "[parameters('AzureSynapseAnalytics2_connectionString')]"
 					},
-					"cogadb123_accessToken": {
-						"value": "[parameters('cogadb123_accessToken')]"
-					},
 					"kkdatalake2_accountKey": {
 						"value": "[parameters('kkdatalake2_accountKey')]"
-					},
-					"targetazuredb_connectionString": {
-						"value": "[parameters('targetazuredb_connectionString')]"
 					},
 					"kkdatalake2_properties_typeProperties_url": {
 						"value": "[parameters('kkdatalake2_properties_typeProperties_url')]"
@@ -166,20 +126,11 @@
 					"factoryName": {
 						"value": "[parameters('factoryName')]"
 					},
-					"FileServer1_password": {
-						"value": "[parameters('FileServer1_password')]"
-					},
 					"localsqlserver_connectionString": {
 						"value": "[parameters('localsqlserver_connectionString')]"
 					},
 					"localsqlserver_password": {
 						"value": "[parameters('localsqlserver_password')]"
-					},
-					"FileServer1_properties_typeProperties_host": {
-						"value": "[parameters('FileServer1_properties_typeProperties_host')]"
-					},
-					"FileServer1_properties_typeProperties_userId": {
-						"value": "[parameters('FileServer1_properties_typeProperties_userId')]"
 					},
 					"localsqlserver_properties_typeProperties_userName": {
 						"value": "[parameters('localsqlserver_properties_typeProperties_userName')]"
