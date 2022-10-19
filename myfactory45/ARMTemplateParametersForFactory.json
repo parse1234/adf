@@ -5,6 +5,9 @@
 		"factoryName": {
 			"value": "myfactory45"
 		},
+		"AzureBlobStorage1_connectionString": {
+			"value": ""
+		},
 		"AzureSqlDatabase1_connectionString": {
 			"value": ""
 		},
@@ -13,6 +16,9 @@
 		},
 		"kkdatalake2_accountKey": {
 			"value": ""
+		},
+		"AzureKeyVault1_properties_typeProperties_baseUrl": {
+			"value": "https://mykey456.vault.azure.net/"
 		},
 		"kkdatalake2_properties_typeProperties_url": {
 			"value": "https://kkdl456.dfs.core.windows.net/"
