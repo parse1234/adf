@@ -17,7 +17,10 @@
 				"typeProperties": {
 					"source": {
 						"type": "AzureSqlSource",
-						"sqlReaderQuery": "SELECT waterMarkVal\nFROM [dbo].[WaterMark]\nWHERE tableName = '@{pipeline().parameters.finalTableName}",
+						"sqlReaderQuery": {
+							"value": "SELECT waterMarkVal\nFROM [dbo].[WaterMark]\nWHERE tableName = '@{pipeline().parameters.finalTableName}",
+							"type": "Expression"
+						},
 						"queryTimeout": "02:00:00",
 						"partitionOption": "None"
 					},
@@ -42,7 +45,10 @@
 				"typeProperties": {
 					"source": {
 						"type": "AzureSqlSource",
-						"sqlReaderQuery": "SELECT MAX(@{pipeline().parameters.waterMarkCol}) AS NewwaterMarkVal\nFROM @{pipeline().parameters.srcTableName}",
+						"sqlReaderQuery": {
+							"value": "SELECT MAX(@{pipeline().parameters.waterMarkCol}) AS NewwaterMarkVal\nFROM @{pipeline().parameters.srcTableName}",
+							"type": "Expression"
+						},
 						"queryTimeout": "02:00:00",
 						"partitionOption": "None"
 					},
@@ -80,13 +86,19 @@
 				"typeProperties": {
 					"source": {
 						"type": "AzureSqlSource",
-						"sqlReaderQuery": "select * from @{pipeline().parameters.srcTableName}\nwhere @{pipeline().parameters.waterMarkCol} > \n'@{activity('lookupOldWaterMark').output.firstRow.waterMarkVal}' \nand @{pipeline().parameters.waterMarkCol} <= \n'@{activity('lookupNewWaterMark').output.firstRow.NewwaterMarkVal}'",
+						"sqlReaderQuery": {
+							"value": "select * from @{pipeline().parameters.srcTableName}\nwhere @{pipeline().parameters.waterMarkCol} > \n'@{activity('lookupOldWaterMark').output.firstRow.waterMarkVal}' \nand @{pipeline().parameters.waterMarkCol} <= \n'@{activity('lookupNewWaterMark').output.firstRow.NewwaterMarkVal}'",
+							"type": "Expression"
+						},
 						"queryTimeout": "02:00:00",
 						"partitionOption": "None"
 					},
 					"sink": {
 						"type": "AzureSqlSink",
-						"preCopyScript": "TRUNCATE TABLE @{pipeline().parameters.stgTableName}",
+						"preCopyScript": {
+							"value": "TRUNCATE TABLE @{pipeline().parameters.stgTableName}",
+							"type": "Expression"
+						},
 						"writeBehavior": "insert",
 						"sqlWriterUseTableLock": false,
 						"disableMetricsCollection": false
@@ -164,11 +176,17 @@
 					"storedProcedureName": "[dbo].[usp_write_watermark]",
 					"storedProcedureParameters": {
 						"LastModifiedtime": {
-							"value": "@{activity('lookupNewWaterMark').output.firstRow.NewwaterMarkVal}",
+							"value": {
+								"value": "@{activity('lookupNewWaterMark').output.firstRow.NewwaterMarkVal}",
+								"type": "Expression"
+							},
 							"type": "DateTime"
 						},
 						"TableName": {
-							"value": "@{pipeline().parameters.finalTableName}",
+							"value": {
+								"value": "@{pipeline().parameters.finalTableName}",
+								"type": "Expression"
+							},
 							"type": "String"
 						}
 					}
@@ -204,6 +222,9 @@
 				"type": "string",
 				"defaultValue": "usp_update_WaterMark"
 			}
+		},
+		"folder": {
+			"name": "till Day 9"
 		},
 		"annotations": []
 	}

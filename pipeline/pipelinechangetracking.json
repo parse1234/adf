@@ -79,7 +79,10 @@
 				"typeProperties": {
 					"source": {
 						"type": "AzureSqlSource",
-						"sqlReaderQuery": "SELECT \nc.studentId,\ns.studentName,\ns.stream,\ns.marks, \ns.createDate,\ns.updateDate,\n    c.SYS_CHANGE_VERSION, \nc.SYS_CHANGE_OPERATION,  \n    c.SYS_CHANGE_COLUMNS\nFROM Student AS s \nRIGHT OUTER JOIN CHANGETABLE(\nCHANGES Student, @{activity('lkupLastChngTrackVer').output.firstRow.SYS_CHANGE_VERSION}) as c \nON s.[studentId] = c.[studentId] \nwhere c.SYS_CHANGE_VERSION <= \n@{activity('lkupCurChngTrackVer').output.firstRow.CurrentChangeTrackingVersion}",
+						"sqlReaderQuery": {
+							"value": "SELECT \nc.studentId,\ns.studentName,\ns.stream,\ns.marks, \ns.createDate,\ns.updateDate,\n    c.SYS_CHANGE_VERSION, \nc.SYS_CHANGE_OPERATION,  \n    c.SYS_CHANGE_COLUMNS\nFROM Student AS s \nRIGHT OUTER JOIN CHANGETABLE(\nCHANGES Student, @{activity('lkupLastChngTrackVer').output.firstRow.SYS_CHANGE_VERSION}) as c \nON s.[studentId] = c.[studentId] \nwhere c.SYS_CHANGE_VERSION <= \n@{activity('lkupCurChngTrackVer').output.firstRow.CurrentChangeTrackingVersion}",
+							"type": "Expression"
+						},
 						"queryTimeout": "02:00:00",
 						"partitionOption": "None"
 					},
@@ -163,11 +166,17 @@
 					"storedProcedureName": "[dbo].[uspUpdateChangeTrackingStore]",
 					"storedProcedureParameters": {
 						"changeTrackingVersion": {
-							"value": "@{activity('lkupCurChngTrackVer').output.firstRow.CurrentChangeTrackingVersion}",
+							"value": {
+								"value": "@{activity('lkupCurChngTrackVer').output.firstRow.CurrentChangeTrackingVersion}",
+								"type": "Expression"
+							},
 							"type": "Int64"
 						},
 						"tableName": {
-							"value": "@{activity('lkupLastChngTrackVer').output.firstRow.tableName}",
+							"value": {
+								"value": "@{activity('lkupLastChngTrackVer').output.firstRow.tableName}",
+								"type": "Expression"
+							},
 							"type": "String"
 						}
 					}
@@ -178,6 +187,9 @@
 				}
 			}
 		],
+		"folder": {
+			"name": "till Day 9"
+		},
 		"annotations": []
 	}
 }

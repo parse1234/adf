@@ -61,6 +61,9 @@
 				"type": "string"
 			}
 		},
+		"folder": {
+			"name": "till Day 9"
+		},
 		"annotations": []
 	}
 }
