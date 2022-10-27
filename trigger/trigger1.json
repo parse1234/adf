@@ -1,0 +1,31 @@
+{
+	"name": "trigger1",
+	"properties": {
+		"annotations": [
+			"trig1"
+		],
+		"runtimeState": "Started",
+		"pipelines": [
+			{
+				"pipelineReference": {
+					"referenceName": "pipewithparametrs",
+					"type": "PipelineReference"
+				},
+				"parameters": {
+					"pipetname": "dept",
+					"pipefname": "ddf"
+				}
+			}
+		],
+		"type": "ScheduleTrigger",
+		"typeProperties": {
+			"recurrence": {
+				"frequency": "Hour",
+				"interval": 15,
+				"startTime": "2022-10-27T09:23:00Z",
+				"endTime": "2022-10-28T09:23:00Z",
+				"timeZone": "UTC"
+			}
+		}
+	}
+}
