@@ -18,6 +18,12 @@
 					"dataflow": {
 						"referenceName": "dataflow5",
 						"type": "DataFlowReference",
+						"parameters": {
+							"price": {
+								"value": "@pipeline().parameters.price",
+								"type": "Expression"
+							}
+						},
 						"datasetParameters": {
 							"sink1": {
 								"sourcename": "book"
