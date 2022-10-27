@@ -1,0 +1,28 @@
+{
+	"name": "trigger1",
+	"properties": {
+		"annotations": [],
+		"runtimeState": "Started",
+		"pipelines": [
+			{
+				"pipelineReference": {
+					"referenceName": "pipeline2",
+					"type": "PipelineReference"
+				},
+				"parameters": {
+					"sourcename": "dept",
+					"targetname": "dept"
+				}
+			}
+		],
+		"type": "BlobEventsTrigger",
+		"typeProperties": {
+			"blobPathBeginsWith": "/data/blobs/",
+			"ignoreEmptyBlobs": true,
+			"scope": "/subscriptions/830d45ca-cd74-4efb-9e0d-b16fa97420bb/resourceGroups/adf/providers/Microsoft.Storage/storageAccounts/kkdl456",
+			"events": [
+				"Microsoft.Storage.BlobCreated"
+			]
+		}
+	}
+}
