@@ -33,7 +33,7 @@
 		},
 		"trigger1_properties_storagetrigger_parameters_fname": {
 			"type": "string",
-			"defaultValue": "@triggerBody().fileName"
+			"defaultValue": "@triggerBody().filename"
 		},
 		"trigger1_properties_typeProperties_scope": {
 			"type": "string",
@@ -5362,39 +5362,6 @@
 			]
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/trigger1')]",
-			"type": "Microsoft.DataFactory/factories/triggers",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"annotations": [],
-				"runtimeState": "Stopped",
-				"pipelines": [
-					{
-						"pipelineReference": {
-							"referenceName": "storagetrigger",
-							"type": "PipelineReference"
-						},
-						"parameters": {
-							"fname": "[parameters('trigger1_properties_storagetrigger_parameters_fname')]"
-						}
-					}
-				],
-				"type": "BlobEventsTrigger",
-				"typeProperties": {
-					"blobPathBeginsWith": "/data/blobs/CTS_custapply",
-					"blobPathEndsWith": ".csv",
-					"ignoreEmptyBlobs": true,
-					"scope": "[parameters('trigger1_properties_typeProperties_scope')]",
-					"events": [
-						"Microsoft.Storage.BlobCreated"
-					]
-				}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/pipelines/storagetrigger')]"
-			]
-		},
-		{
 			"name": "[concat(parameters('factoryName'), '/storageeventsink')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -5420,6 +5387,39 @@
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/linkedServices/kkdatalake2')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/trigger1')]",
+			"type": "Microsoft.DataFactory/factories/triggers",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"runtimeState": "Started",
+				"pipelines": [
+					{
+						"pipelineReference": {
+							"referenceName": "storagetrigger",
+							"type": "PipelineReference"
+						},
+						"parameters": {
+							"fname": "[parameters('trigger1_properties_storagetrigger_parameters_fname')]"
+						}
+					}
+				],
+				"type": "BlobEventsTrigger",
+				"typeProperties": {
+					"blobPathBeginsWith": "/data/blobs/CTS_custapply",
+					"blobPathEndsWith": ".csv",
+					"ignoreEmptyBlobs": true,
+					"scope": "[parameters('trigger1_properties_typeProperties_scope')]",
+					"events": [
+						"Microsoft.Storage.BlobCreated"
+					]
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/pipelines/storagetrigger')]"
 			]
 		}
 	]

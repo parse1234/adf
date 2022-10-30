@@ -33,7 +33,7 @@
 		},
 		"trigger1_properties_storagetrigger_parameters_fname": {
 			"type": "string",
-			"defaultValue": "@triggerBody().fileName"
+			"defaultValue": "@triggerBody().filename"
 		},
 		"trigger1_properties_typeProperties_scope": {
 			"type": "string",
