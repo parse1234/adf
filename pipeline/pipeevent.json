@@ -50,7 +50,13 @@
 				"inputs": [
 					{
 						"referenceName": "batch1csv",
-						"type": "DatasetReference"
+						"type": "DatasetReference",
+						"parameters": {
+							"fname": {
+								"value": "@pipeline().parameters.fname",
+								"type": "Expression"
+							}
+						}
 					}
 				],
 				"outputs": [
