@@ -29,6 +29,12 @@
 		"trigger1_properties_typeProperties_scope": {
 			"value": "/subscriptions/830d45ca-cd74-4efb-9e0d-b16fa97420bb/resourceGroups/adf/providers/Microsoft.Storage/storageAccounts/kkdl456"
 		},
+		"trigger2_properties_pipeevent_parameters_fname": {
+			"value": "@triggerBody().filename"
+		},
+		"trigger2_properties_typeProperties_scope": {
+			"value": "/subscriptions/830d45ca-cd74-4efb-9e0d-b16fa97420bb/resourceGroups/adf/providers/Microsoft.Storage/storageAccounts/kkdl456"
+		},
 		"containerUri": {
 			"value": ""
 		},
