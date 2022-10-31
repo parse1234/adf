@@ -23,16 +23,10 @@
 		"kkdatalake2_properties_typeProperties_url": {
 			"value": "https://kkdl456.dfs.core.windows.net/"
 		},
-		"trigger1_properties_storagetrigger_parameters_fname": {
+		"trigger1_properties_batch2storagetrigger_parameters_fname": {
 			"value": "@triggerBody().filename"
 		},
 		"trigger1_properties_typeProperties_scope": {
-			"value": "/subscriptions/830d45ca-cd74-4efb-9e0d-b16fa97420bb/resourceGroups/adf/providers/Microsoft.Storage/storageAccounts/kkdl456"
-		},
-		"trigger2_properties_pipeevent_parameters_fname": {
-			"value": "@triggerBody().filename"
-		},
-		"trigger2_properties_typeProperties_scope": {
 			"value": "/subscriptions/830d45ca-cd74-4efb-9e0d-b16fa97420bb/resourceGroups/adf/providers/Microsoft.Storage/storageAccounts/kkdl456"
 		}
 	}
