@@ -16,7 +16,7 @@
 		],
 		"type": "BlobEventsTrigger",
 		"typeProperties": {
-			"blobPathBeginsWith": "/data/blobs/CTS_*",
+			"blobPathBeginsWith": "/data/blobs/CTS_",
 			"blobPathEndsWith": ".csv",
 			"ignoreEmptyBlobs": true,
 			"scope": "/subscriptions/830d45ca-cd74-4efb-9e0d-b16fa97420bb/resourceGroups/adf/providers/Microsoft.Storage/storageAccounts/kkdl456",
