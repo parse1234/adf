@@ -1,0 +1,32 @@
+{
+	"name": "incrementalcsv",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "kkdatalake2",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"fileName": "empcsv1.csv",
+				"fileSystem": "data"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": [
+			{
+				"name": "eid",
+				"type": "String"
+			},
+			{
+				"name": "doj",
+				"type": "String"
+			}
+		]
+	}
+}
