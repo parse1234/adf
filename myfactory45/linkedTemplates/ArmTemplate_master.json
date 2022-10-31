@@ -161,6 +161,26 @@
 				"parameters": {
 					"factoryName": {
 						"value": "[parameters('factoryName')]"
+					}
+				}
+			},
+			"dependsOn": [
+				"[resourceId('Microsoft.Resources/deployments', 'myfactory45_ArmTemplate_3')]"
+			]
+		},
+		{
+			"name": "myfactory45_ArmTemplate_5",
+			"type": "Microsoft.Resources/deployments",
+			"apiVersion": "2018-02-01",
+			"properties": {
+				"mode": "incremental",
+				"templateLink": {
+					"uri": "[concat(parameters('containerUri'), '/ArmTemplate_5.json', parameters('containerSasToken'))]",
+					"contentVersion": "1.0.0.0"
+				},
+				"parameters": {
+					"factoryName": {
+						"value": "[parameters('factoryName')]"
 					},
 					"trigger1_properties_batch2storagetrigger_parameters_fname": {
 						"value": "[parameters('trigger1_properties_batch2storagetrigger_parameters_fname')]"
@@ -171,7 +191,7 @@
 				}
 			},
 			"dependsOn": [
-				"[resourceId('Microsoft.Resources/deployments', 'myfactory45_ArmTemplate_3')]"
+				"[resourceId('Microsoft.Resources/deployments', 'myfactory45_ArmTemplate_4')]"
 			]
 		}
 	]
