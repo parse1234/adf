@@ -14,10 +14,16 @@
 		"AzureSqlDatabase2_connectionString": {
 			"value": ""
 		},
+		"AzureSynapseAnalytics1_connectionString": {
+			"value": ""
+		},
 		"kkdatalake2_accountKey": {
 			"value": ""
 		},
 		"AzureKeyVault1_properties_typeProperties_baseUrl": {
+			"value": "https://mykey456.vault.azure.net/"
+		},
+		"AzureKeyVault2_properties_typeProperties_baseUrl": {
 			"value": "https://mykey456.vault.azure.net/"
 		},
 		"kkdatalake2_properties_typeProperties_url": {
