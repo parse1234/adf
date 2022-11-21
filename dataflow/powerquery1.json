@@ -6,13 +6,15 @@
 			"sources": [
 				{
 					"name": "DelimitedText3",
-					"script": "source(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tignoreNoFilesFound: false) ~>  DelimitedText3",
+					"script": "source(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tignoreNoFilesFound: false) ~> DelimitedText3",
 					"dataset": {
 						"referenceName": "DelimitedText3",
 						"type": "DatasetReference"
 					}
 				}
-			]
+			],
+			"script": "section Section1;\r\nshared DelimitedText3 = let AdfDoc = AzureStorage.DataLakeContents(\"https://kkdl456.dfs.core.windows.net/data/CTS_custapply.csv\"),Csv = Csv.Document(AdfDoc, [Delimiter = \",\", Encoding = TextEncoding.Utf8, QuoteStyle = QuoteStyle.Csv]), PromotedHeaders = Table.PromoteHeaders(Csv, [PromoteAllScalars = true]) in  PromotedHeaders;\r\nshared UserQuery = let Source = #\"DelimitedText3\",\r\n  #\"Renamed columns\" = Table.RenameColumns(Source, {{\"cid\", \"CustomerId\"}}),\r\n  #\"Capitalized each word\" = Table.TransformColumns(#\"Renamed columns\", {{\"cname\", each Text.Proper(_), type nullable text}}) in #\"Capitalized each word\";\r\n",
+			"documentLocale": "en-us"
 		}
 	}
 }
