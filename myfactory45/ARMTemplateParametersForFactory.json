@@ -20,6 +20,9 @@
 		"kkdatalake2_accountKey": {
 			"value": ""
 		},
+		"targetdb_connectionString": {
+			"value": ""
+		},
 		"AzureKeyVault1_properties_typeProperties_baseUrl": {
 			"value": "https://mykey456.vault.azure.net/"
 		},

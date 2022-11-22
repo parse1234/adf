@@ -27,6 +27,10 @@
 			"type": "secureString",
 			"metadata": "Secure string for 'accountKey' of 'kkdatalake2'"
 		},
+		"targetdb_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'targetdb'"
+		},
 		"AzureKeyVault1_properties_typeProperties_baseUrl": {
 			"type": "string",
 			"defaultValue": "https://mykey456.vault.azure.net/"
@@ -88,6 +92,9 @@
 					},
 					"kkdatalake2_accountKey": {
 						"value": "[parameters('kkdatalake2_accountKey')]"
+					},
+					"targetdb_connectionString": {
+						"value": "[parameters('targetdb_connectionString')]"
 					},
 					"AzureKeyVault1_properties_typeProperties_baseUrl": {
 						"value": "[parameters('AzureKeyVault1_properties_typeProperties_baseUrl')]"
