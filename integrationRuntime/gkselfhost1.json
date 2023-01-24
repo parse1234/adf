@@ -1,0 +1,6 @@
+{
+	"name": "gkselfhost1",
+	"properties": {
+		"type": "SelfHosted"
+	}
+}
