@@ -2577,6 +2577,54 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/dkpipe4dataflow')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "Data flow1",
+						"type": "ExecuteDataFlow",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"dataflow": {
+								"referenceName": "gkdataflow1",
+								"type": "DataFlowReference",
+								"parameters": {},
+								"datasetParameters": {
+									"emp": {},
+									"dept": {},
+									"sink1": {}
+								}
+							},
+							"staging": {},
+							"compute": {
+								"coreCount": 8,
+								"computeType": "General"
+							},
+							"traceLevel": "Fine"
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {},
+					"cancelAfter": {}
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/dataflows/gkdataflow1')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/experiment')]",
 			"type": "Microsoft.DataFactory/factories/pipelines",
 			"apiVersion": "2018-06-01",
@@ -5951,6 +5999,42 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/gkload1')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "kkdatalake2",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobFSLocation",
+						"fileSystem": "target"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "cid",
+						"type": "String"
+					},
+					{
+						"name": "cname",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/kkdatalake2')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/gksqltable1')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -7746,6 +7830,102 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/gkdataflow1')]",
+			"type": "Microsoft.DataFactory/factories/dataflows",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"type": "MappingDataFlow",
+				"typeProperties": {
+					"sources": [
+						{
+							"dataset": {
+								"referenceName": "gkemp",
+								"type": "DatasetReference"
+							},
+							"name": "emp"
+						},
+						{
+							"dataset": {
+								"referenceName": "gkdept",
+								"type": "DatasetReference"
+							},
+							"name": "dept"
+						}
+					],
+					"sinks": [
+						{
+							"dataset": {
+								"referenceName": "gkload1",
+								"type": "DatasetReference"
+							},
+							"name": "sink1"
+						}
+					],
+					"transformations": [
+						{
+							"name": "renamedid"
+						},
+						{
+							"name": "datachange"
+						},
+						{
+							"name": "join1"
+						}
+					],
+					"scriptLines": [
+						"source(output(",
+						"          empid as string,",
+						"          ename as string,",
+						"          salary as integer,",
+						"          did as string",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     ignoreNoFilesFound: false) ~> emp",
+						"source(output(",
+						"          dept_id as string,",
+						"          dname as string,",
+						"          totalrevenue as integer",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     ignoreNoFilesFound: false) ~> dept",
+						"emp select(mapColumn(",
+						"          empid,",
+						"          ename,",
+						"          salary,",
+						"          dept_id = did",
+						"     ),",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true) ~> renamedid",
+						"renamedid derive(ename = upper(ename),",
+						"          salary = salary+(salary*10/100)) ~> datachange",
+						"datachange, dept join(renamedid@dept_id == dept@dept_id,",
+						"     joinType:'inner',",
+						"     matchType:'exact',",
+						"     ignoreSpaces: false,",
+						"     broadcast: 'auto')~> join1",
+						"join1 sink(allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     input(",
+						"          cid as string,",
+						"          cname as string",
+						"     ),",
+						"     umask: 0022,",
+						"     preCommands: [],",
+						"     postCommands: [],",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true) ~> sink1"
+					]
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/gkemp')]",
+				"[concat(variables('factoryId'), '/datasets/gkdept')]",
+				"[concat(variables('factoryId'), '/datasets/gkload1')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/incrementaldataflow')]",
 			"type": "Microsoft.DataFactory/factories/dataflows",
 			"apiVersion": "2018-06-01",
@@ -8003,23 +8183,6 @@
 				"[concat(variables('factoryId'), '/datasets/emp_new')]",
 				"[concat(variables('factoryId'), '/datasets/AzureSqlTablescd')]"
 			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/gkdataflow1')]",
-			"type": "Microsoft.DataFactory/factories/dataflows",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"type": "MappingDataFlow",
-				"typeProperties": {
-					"sources": [],
-					"sinks": [],
-					"transformations": [],
-					"scriptLines": [
-						""
-					]
-				}
-			},
-			"dependsOn": []
 		}
 	]
 }
