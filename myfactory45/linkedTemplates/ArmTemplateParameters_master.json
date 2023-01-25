@@ -17,6 +17,12 @@
 		"AzureSynapseAnalytics1_connectionString": {
 			"value": ""
 		},
+		"gkdatalake1_accountKey": {
+			"value": ""
+		},
+		"gkdb1_connectionString": {
+			"value": ""
+		},
 		"kkdatalake2_accountKey": {
 			"value": ""
 		},
@@ -24,12 +30,6 @@
 			"value": ""
 		},
 		"targetdb_connectionString": {
-			"value": ""
-		},
-		"gkdb1_connectionString": {
-			"value": ""
-		},
-		"gkdatalake1_accountKey": {
 			"value": ""
 		},
 		"AzureKeyVault1_properties_typeProperties_baseUrl": {
@@ -41,6 +41,9 @@
 		"AzureKeyVault3_properties_typeProperties_baseUrl": {
 			"value": "https://unkey56.vault.azure.net/"
 		},
+		"gkdatalake1_properties_typeProperties_url": {
+			"value": "https://kkdl456.dfs.core.windows.net/"
+		},
 		"kkdatalake2_properties_typeProperties_url": {
 			"value": "https://kkdl456.dfs.core.windows.net/"
 		},
@@ -49,9 +52,6 @@
 		},
 		"trigger1_properties_typeProperties_scope": {
 			"value": "/subscriptions/830d45ca-cd74-4efb-9e0d-b16fa97420bb/resourceGroups/adf/providers/Microsoft.Storage/storageAccounts/kkdl456"
-		},
-		"gkdatalake1_properties_typeProperties_url": {
-			"value": "https://kkdl456.dfs.core.windows.net/"
 		},
 		"containerUri": {
 			"value": ""

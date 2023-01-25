@@ -23,6 +23,14 @@
 			"type": "secureString",
 			"metadata": "Secure string for 'connectionString' of 'AzureSynapseAnalytics1'"
 		},
+		"gkdatalake1_accountKey": {
+			"type": "secureString",
+			"metadata": "Secure string for 'accountKey' of 'gkdatalake1'"
+		},
+		"gkdb1_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'gkdb1'"
+		},
 		"kkdatalake2_accountKey": {
 			"type": "secureString",
 			"metadata": "Secure string for 'accountKey' of 'kkdatalake2'"
@@ -34,14 +42,6 @@
 		"targetdb_connectionString": {
 			"type": "secureString",
 			"metadata": "Secure string for 'connectionString' of 'targetdb'"
-		},
-		"gkdb1_connectionString": {
-			"type": "secureString",
-			"metadata": "Secure string for 'connectionString' of 'gkdb1'"
-		},
-		"gkdatalake1_accountKey": {
-			"type": "secureString",
-			"metadata": "Secure string for 'accountKey' of 'gkdatalake1'"
 		},
 		"AzureKeyVault1_properties_typeProperties_baseUrl": {
 			"type": "string",
@@ -55,6 +55,10 @@
 			"type": "string",
 			"defaultValue": "https://unkey56.vault.azure.net/"
 		},
+		"gkdatalake1_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://kkdl456.dfs.core.windows.net/"
+		},
 		"kkdatalake2_properties_typeProperties_url": {
 			"type": "string",
 			"defaultValue": "https://kkdl456.dfs.core.windows.net/"
@@ -66,10 +70,6 @@
 		"trigger1_properties_typeProperties_scope": {
 			"type": "string",
 			"defaultValue": "/subscriptions/830d45ca-cd74-4efb-9e0d-b16fa97420bb/resourceGroups/adf/providers/Microsoft.Storage/storageAccounts/kkdl456"
-		},
-		"gkdatalake1_properties_typeProperties_url": {
-			"type": "string",
-			"defaultValue": "https://kkdl456.dfs.core.windows.net/"
 		},
 		"containerUri": {
 			"type": "string",
@@ -110,6 +110,12 @@
 					"AzureSynapseAnalytics1_connectionString": {
 						"value": "[parameters('AzureSynapseAnalytics1_connectionString')]"
 					},
+					"gkdatalake1_accountKey": {
+						"value": "[parameters('gkdatalake1_accountKey')]"
+					},
+					"gkdb1_connectionString": {
+						"value": "[parameters('gkdb1_connectionString')]"
+					},
 					"kkdatalake2_accountKey": {
 						"value": "[parameters('kkdatalake2_accountKey')]"
 					},
@@ -118,12 +124,6 @@
 					},
 					"targetdb_connectionString": {
 						"value": "[parameters('targetdb_connectionString')]"
-					},
-					"gkdb1_connectionString": {
-						"value": "[parameters('gkdb1_connectionString')]"
-					},
-					"gkdatalake1_accountKey": {
-						"value": "[parameters('gkdatalake1_accountKey')]"
 					},
 					"AzureKeyVault1_properties_typeProperties_baseUrl": {
 						"value": "[parameters('AzureKeyVault1_properties_typeProperties_baseUrl')]"
@@ -134,11 +134,11 @@
 					"AzureKeyVault3_properties_typeProperties_baseUrl": {
 						"value": "[parameters('AzureKeyVault3_properties_typeProperties_baseUrl')]"
 					},
-					"kkdatalake2_properties_typeProperties_url": {
-						"value": "[parameters('kkdatalake2_properties_typeProperties_url')]"
-					},
 					"gkdatalake1_properties_typeProperties_url": {
 						"value": "[parameters('gkdatalake1_properties_typeProperties_url')]"
+					},
+					"kkdatalake2_properties_typeProperties_url": {
+						"value": "[parameters('kkdatalake2_properties_typeProperties_url')]"
 					}
 				}
 			},
