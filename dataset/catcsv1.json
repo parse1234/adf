@@ -1,0 +1,32 @@
+{
+	"name": "catcsv1",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "icicisource1",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"fileName": "catcsv.csv",
+				"fileSystem": "icidata"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": [
+			{
+				"name": "catid",
+				"type": "String"
+			},
+			{
+				"name": "catname",
+				"type": "String"
+			}
+		]
+	}
+}
