@@ -1,0 +1,25 @@
+{
+	"name": "icici_db_catcsv1",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "icicidb1",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "catid",
+				"type": "varchar"
+			},
+			{
+				"name": "catname",
+				"type": "varchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "catcsv1"
+		}
+	}
+}
