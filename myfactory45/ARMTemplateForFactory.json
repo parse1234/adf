@@ -31,6 +31,10 @@
 			"type": "secureString",
 			"metadata": "Secure string for 'connectionString' of 'gkdb1'"
 		},
+		"icicidb1_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'icicidb1'"
+		},
 		"icicidw1_connectionString": {
 			"type": "secureString",
 			"metadata": "Secure string for 'connectionString' of 'icicidw1'"
@@ -6165,6 +6169,36 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/icici_db_catcsv1')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "icicidb1",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "catid",
+						"type": "varchar"
+					},
+					{
+						"name": "catname",
+						"type": "varchar"
+					}
+				],
+				"typeProperties": {
+					"schema": "dbo",
+					"table": "catcsv1"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/icicidb1')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/incrementalcsv')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -7164,6 +7198,19 @@
 				"type": "AzureSqlDatabase",
 				"typeProperties": {
 					"connectionString": "[parameters('gkdb1_connectionString')]"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/icicidb1')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "AzureSqlDatabase",
+				"typeProperties": {
+					"connectionString": "[parameters('icicidb1_connectionString')]"
 				}
 			},
 			"dependsOn": []

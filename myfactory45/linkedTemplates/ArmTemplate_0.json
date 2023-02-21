@@ -31,6 +31,10 @@
 			"type": "secureString",
 			"metadata": "Secure string for 'connectionString' of 'gkdb1'"
 		},
+		"icicidb1_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'icicidb1'"
+		},
 		"icicidw1_connectionString": {
 			"type": "secureString",
 			"metadata": "Secure string for 'connectionString' of 'icicidw1'"
@@ -219,6 +223,19 @@
 			"dependsOn": []
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/icicidb1')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "AzureSqlDatabase",
+				"typeProperties": {
+					"connectionString": "[parameters('icicidb1_connectionString')]"
+				}
+			},
+			"dependsOn": []
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/icicidw1')]",
 			"type": "Microsoft.DataFactory/factories/linkedServices",
 			"apiVersion": "2018-06-01",
@@ -344,42 +361,6 @@
 						"value": "@dataset().sourcename",
 						"type": "Expression"
 					}
-				}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/AzureSqlDatabase1')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/AzureSqlTable2')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "AzureSqlDatabase1",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "AzureSqlTable",
-				"schema": [
-					{
-						"name": "bookid",
-						"type": "int",
-						"precision": 10
-					},
-					{
-						"name": "bookname",
-						"type": "varchar"
-					},
-					{
-						"name": "bookprice",
-						"type": "int",
-						"precision": 10
-					}
-				],
-				"typeProperties": {
-					"schema": "cogni",
-					"table": "book"
 				}
 			},
 			"dependsOn": [

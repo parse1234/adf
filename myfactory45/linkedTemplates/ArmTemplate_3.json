@@ -13,6 +13,56 @@
 	},
 	"resources": [
 		{
+			"name": "[concat(parameters('factoryName'), '/dim_empscd')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureSqlDatabase1",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "eid",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "ename",
+						"type": "varchar"
+					},
+					{
+						"name": "dname",
+						"type": "varchar"
+					},
+					{
+						"name": "isactive",
+						"type": "smallint",
+						"precision": 5
+					},
+					{
+						"name": "startdate",
+						"type": "datetime",
+						"precision": 23,
+						"scale": 3
+					},
+					{
+						"name": "enddate",
+						"type": "datetime",
+						"precision": 23,
+						"scale": 3
+					}
+				],
+				"typeProperties": {
+					"schema": "dbo",
+					"table": "dim_emp_scd"
+				}
+			},
+			"dependsOn": []
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/emp_new')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -343,6 +393,34 @@
 			"dependsOn": []
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/icici_db_catcsv1')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "icicidb1",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "catid",
+						"type": "varchar"
+					},
+					{
+						"name": "catname",
+						"type": "varchar"
+					}
+				],
+				"typeProperties": {
+					"schema": "dbo",
+					"table": "catcsv1"
+				}
+			},
+			"dependsOn": []
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/incrementalcsv')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -624,117 +702,6 @@
 				"typeProperties": {
 					"schema": "dbo",
 					"table": "source_cust"
-				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/stagetrainee')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "AzureSqlDatabase1",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "AzureSqlTable",
-				"schema": [
-					{
-						"name": "studentId",
-						"type": "int",
-						"precision": 10
-					},
-					{
-						"name": "studentName",
-						"type": "varchar"
-					},
-					{
-						"name": "stream",
-						"type": "varchar"
-					},
-					{
-						"name": "marks",
-						"type": "int",
-						"precision": 10
-					},
-					{
-						"name": "createDate",
-						"type": "datetime2",
-						"scale": 7
-					},
-					{
-						"name": "updateDate",
-						"type": "datetime2",
-						"scale": 7
-					}
-				],
-				"typeProperties": {
-					"schema": "dbo",
-					"table": "stgtrainee"
-				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/stagingdataset')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "AzureSqlDatabase1",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "AzureSqlTable",
-				"schema": [
-					{
-						"name": "studentId",
-						"type": "int",
-						"precision": 10
-					},
-					{
-						"name": "studentName",
-						"type": "varchar"
-					},
-					{
-						"name": "stream",
-						"type": "varchar"
-					},
-					{
-						"name": "marks",
-						"type": "int",
-						"precision": 10
-					},
-					{
-						"name": "createDate",
-						"type": "datetime",
-						"precision": 23,
-						"scale": 3
-					},
-					{
-						"name": "updateDate",
-						"type": "datetime",
-						"precision": 23,
-						"scale": 3
-					},
-					{
-						"name": "SYS_CHANGE_VERSION",
-						"type": "bigint",
-						"precision": 19
-					},
-					{
-						"name": "SYS_CHANGE_OPERATION",
-						"type": "char"
-					},
-					{
-						"name": "SYS_CHANGE_COLUMNS",
-						"type": "varbinary"
-					}
-				],
-				"typeProperties": {
-					"schema": "dbo",
-					"table": "stgStudentCt"
 				}
 			},
 			"dependsOn": []

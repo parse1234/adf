@@ -23,6 +23,9 @@
 		"gkdb1_connectionString": {
 			"value": ""
 		},
+		"icicidb1_connectionString": {
+			"value": ""
+		},
 		"icicidw1_connectionString": {
 			"value": ""
 		},

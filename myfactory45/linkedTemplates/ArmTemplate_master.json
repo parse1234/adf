@@ -31,6 +31,10 @@
 			"type": "secureString",
 			"metadata": "Secure string for 'connectionString' of 'gkdb1'"
 		},
+		"icicidb1_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'icicidb1'"
+		},
 		"icicidw1_connectionString": {
 			"type": "secureString",
 			"metadata": "Secure string for 'connectionString' of 'icicidw1'"
@@ -131,6 +135,9 @@
 					},
 					"gkdb1_connectionString": {
 						"value": "[parameters('gkdb1_connectionString')]"
+					},
+					"icicidb1_connectionString": {
+						"value": "[parameters('icicidb1_connectionString')]"
 					},
 					"icicidw1_connectionString": {
 						"value": "[parameters('icicidw1_connectionString')]"
