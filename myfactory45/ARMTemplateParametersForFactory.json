@@ -23,6 +23,12 @@
 		"gkdb1_connectionString": {
 			"value": ""
 		},
+		"icicidw1_connectionString": {
+			"value": ""
+		},
+		"icicisource1_accountKey": {
+			"value": ""
+		},
 		"kkdatalake2_accountKey": {
 			"value": ""
 		},
@@ -41,7 +47,13 @@
 		"AzureKeyVault3_properties_typeProperties_baseUrl": {
 			"value": "https://unkey56.vault.azure.net/"
 		},
+		"AzureKeyVault4_properties_typeProperties_baseUrl": {
+			"value": "https://dfgh.vault.azure.net/"
+		},
 		"gkdatalake1_properties_typeProperties_url": {
+			"value": "https://kkdl456.dfs.core.windows.net/"
+		},
+		"icicisource1_properties_typeProperties_url": {
 			"value": "https://kkdl456.dfs.core.windows.net/"
 		},
 		"kkdatalake2_properties_typeProperties_url": {

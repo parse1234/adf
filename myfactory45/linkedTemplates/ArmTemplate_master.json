@@ -31,6 +31,14 @@
 			"type": "secureString",
 			"metadata": "Secure string for 'connectionString' of 'gkdb1'"
 		},
+		"icicidw1_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'icicidw1'"
+		},
+		"icicisource1_accountKey": {
+			"type": "secureString",
+			"metadata": "Secure string for 'accountKey' of 'icicisource1'"
+		},
 		"kkdatalake2_accountKey": {
 			"type": "secureString",
 			"metadata": "Secure string for 'accountKey' of 'kkdatalake2'"
@@ -55,7 +63,15 @@
 			"type": "string",
 			"defaultValue": "https://unkey56.vault.azure.net/"
 		},
+		"AzureKeyVault4_properties_typeProperties_baseUrl": {
+			"type": "string",
+			"defaultValue": "https://dfgh.vault.azure.net/"
+		},
 		"gkdatalake1_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://kkdl456.dfs.core.windows.net/"
+		},
+		"icicisource1_properties_typeProperties_url": {
 			"type": "string",
 			"defaultValue": "https://kkdl456.dfs.core.windows.net/"
 		},
@@ -116,6 +132,12 @@
 					"gkdb1_connectionString": {
 						"value": "[parameters('gkdb1_connectionString')]"
 					},
+					"icicidw1_connectionString": {
+						"value": "[parameters('icicidw1_connectionString')]"
+					},
+					"icicisource1_accountKey": {
+						"value": "[parameters('icicisource1_accountKey')]"
+					},
 					"kkdatalake2_accountKey": {
 						"value": "[parameters('kkdatalake2_accountKey')]"
 					},
@@ -134,8 +156,14 @@
 					"AzureKeyVault3_properties_typeProperties_baseUrl": {
 						"value": "[parameters('AzureKeyVault3_properties_typeProperties_baseUrl')]"
 					},
+					"AzureKeyVault4_properties_typeProperties_baseUrl": {
+						"value": "[parameters('AzureKeyVault4_properties_typeProperties_baseUrl')]"
+					},
 					"gkdatalake1_properties_typeProperties_url": {
 						"value": "[parameters('gkdatalake1_properties_typeProperties_url')]"
+					},
+					"icicisource1_properties_typeProperties_url": {
+						"value": "[parameters('icicisource1_properties_typeProperties_url')]"
 					},
 					"kkdatalake2_properties_typeProperties_url": {
 						"value": "[parameters('kkdatalake2_properties_typeProperties_url')]"
