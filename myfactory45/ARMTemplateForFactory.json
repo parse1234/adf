@@ -6821,6 +6821,36 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/targettablecatcsv')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "icicidw1",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzureSqlDWTable",
+				"schema": [
+					{
+						"name": "catid",
+						"type": "varchar"
+					},
+					{
+						"name": "catname",
+						"type": "varchar"
+					}
+				],
+				"typeProperties": {
+					"schema": "dbo",
+					"table": "category1"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/icicidw1')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/testdatalakesource')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
