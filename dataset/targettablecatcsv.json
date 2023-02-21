@@ -1,0 +1,25 @@
+{
+	"name": "targettablecatcsv",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "icicidw1",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlDWTable",
+		"schema": [
+			{
+				"name": "catid",
+				"type": "varchar"
+			},
+			{
+				"name": "catname",
+				"type": "varchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "category1"
+		}
+	}
+}
