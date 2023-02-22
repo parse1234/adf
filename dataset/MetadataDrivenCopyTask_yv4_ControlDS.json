@@ -1,0 +1,18 @@
+{
+	"name": "MetadataDrivenCopyTask_yv4_ControlDS",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "metadatdb",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "MetadataDrivenCopyTask_yv4_20230222"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [],
+		"typeProperties": {
+			"table": "MainControlTable_yv4"
+		}
+	}
+}
